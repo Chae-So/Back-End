@@ -39,7 +39,7 @@ public class RestaurantReview extends BaseTimeEntity {
     @JoinColumn(name = "rt_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "restaurant", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "restaurantReview", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<RestaurantReviewImg> restaurantReviewImgList = new ArrayList<>();
 
     @Builder
