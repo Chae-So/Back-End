@@ -17,8 +17,8 @@ public class RestaurantReviewImg {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rt_review_id")
-    private Long rtReviewId;
+    @Column(name = "rt_review_img_id")
+    private Long rtReviewImgId;
 
     private String rtReviewImgLink;
 

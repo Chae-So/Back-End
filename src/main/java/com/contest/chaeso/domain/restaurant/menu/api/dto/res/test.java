@@ -1,4 +1,4 @@
-package com.contest.chaeso.domain.community.bookmark.api.dto.res;
+package com.contest.chaeso.domain.restaurant.menu.api.dto.res;
 
 public class test {
 }
