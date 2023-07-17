@@ -19,11 +19,11 @@ public class Community extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "co_id")
-    private Long coId;
+    private Long id;
 
-    @OneToMany
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private List<Users> users = new ArrayList<>();
+    private Users users;
 
     @NotNull
     @Column(length = 100)
