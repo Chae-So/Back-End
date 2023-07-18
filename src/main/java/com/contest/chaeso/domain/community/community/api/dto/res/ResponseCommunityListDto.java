@@ -11,7 +11,7 @@ import lombok.Getter;
 public class ResponseCommunityListDto {
 
     private Long communityId;
-    private String userId;
+    private Long userId;
     private CommunityImg communityImg;
     private CommunityLike communityLike;
     private CommunityReview communityReview;
