@@ -18,6 +18,8 @@ public class Users {
     @Column(name = "user_id")
     private Long userId;
 
+    private String name;
+
 
     /**
      * oneToMany
@@ -26,4 +28,5 @@ public class Users {
      *
      * restaurant review
      */
+
 }

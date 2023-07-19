@@ -27,4 +27,6 @@ public class CommunityLike {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
+
+
 }
