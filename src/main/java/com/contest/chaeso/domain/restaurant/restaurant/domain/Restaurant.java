@@ -12,20 +12,25 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class Restaurant extends BaseTimeEntity { // 생성, 수정 시간 있어야할 듯
+public class Restaurant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_id")
     private Long rtId;
 
-    private String category; // 이거 enum으로
+    @NotNull
+    private String name;
+
+    @NotNull
+    private String category;
 
     private String address; // 경기도 성남시 분당구 판교역로 166
 
@@ -47,7 +52,8 @@ public class Restaurant extends BaseTimeEntity { // 생성, 수정 시간 있어
     private List<RestaurantBzh> restaurantBzhList = new ArrayList<>();
 
     @Builder
-    private Restaurant(String category, String address, MealType mealType) {
+    private Restaurant(String name, String category, String address, MealType mealType) {
+        this.name = name;
         this.category = category;
         this.address = address;
         this.mealType = mealType;
@@ -60,8 +66,9 @@ public class Restaurant extends BaseTimeEntity { // 생성, 수정 시간 있어
      * @param mealType
      * @return
      */
-    private static Restaurant createRestaurant(String category, String address, MealType mealType) {
+    public static Restaurant createRestaurant(String name, String category, String address, MealType mealType) {
         return Restaurant.builder()
+                .name(name)
                 .category(category)
                 .address(address)
                 .mealType(mealType)
@@ -83,32 +90,33 @@ public class Restaurant extends BaseTimeEntity { // 생성, 수정 시간 있어
         if(restaurantMenu.getRestaurant() != null){
             restaurantMenu.getRestaurant().getRestaurantBookmarkList().remove(restaurantMenu);
         }
-        this.getRestaurantMenuList().add(restaurantMenu);
         restaurantMenu.setRestaurant(this);
+        this.getRestaurantMenuList().add(restaurantMenu);
     }
 
     public void addRestaurantReview(RestaurantReview restaurantReview){
         if(restaurantReview.getRestaurant() != null){
             restaurantReview.getRestaurant().getRestaurantBookmarkList().remove(restaurantReview);
         }
-        this.getRestaurantReviewList().add(restaurantReview);
+
         restaurantReview.setRestaurant(this);
+        this.getRestaurantReviewList().add(restaurantReview);
     }
 
     public void addRestaurantImg(RestaurantImg restaurantImg){
         if(restaurantImg.getRestaurant() != null){
             restaurantImg.getRestaurant().getRestaurantBookmarkList().remove(restaurantImg);
         }
-        this.getRestaurantImgList().add(restaurantImg);
         restaurantImg.setRestaurant(this);
+        this.getRestaurantImgList().add(restaurantImg);
     }
 
     public void addRestaurantBzh(RestaurantBzh restaurantBzh){
         if(restaurantBzh.getRestaurant() != null){
             restaurantBzh.getRestaurant().getRestaurantBookmarkList().remove(restaurantBzh);
         }
-        this.getRestaurantBzhList().add(restaurantBzh);
         restaurantBzh.setRestaurant(this);
+        this.getRestaurantBzhList().add(restaurantBzh);
     }
 
 

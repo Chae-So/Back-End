@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class RestaurantBookmark extends BaseTimeEntity { // 생성, 수정 시간 있어야할 듯
+public class RestaurantBookmark extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,7 +49,6 @@ public class RestaurantBookmark extends BaseTimeEntity { // 생성, 수정 시�
                 .restaurant(restaurant)
                 .build();
     }
-
 
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -19,7 +20,9 @@ public class RestaurantMenu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_menu_id")
     private Long rtMenuId;
+    @NotNull
     private String menuName;
+    @NotNull
     private int price;
 
     @ManyToOne(fetch = LAZY)
@@ -45,6 +48,20 @@ public class RestaurantMenu {
                 .menuName(menuName)
                 .price(price)
                 .restaurant(restaurant)
+                .build();
+
+    }
+
+    /**
+     * restaurant cascade 생성
+     * @param menuName
+     * @param price
+     * @return
+     */
+    public static RestaurantMenu createRestaurantMenuWithCascade(String menuName, int price){
+        return RestaurantMenu.builder()
+                .menuName(menuName)
+                .price(price)
                 .build();
 
     }

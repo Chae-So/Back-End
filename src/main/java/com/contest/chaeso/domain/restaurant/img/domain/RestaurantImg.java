@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -19,6 +20,8 @@ public class RestaurantImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_img_id")
     private Long rtBMarkId;
+    @NotNull
+    @Column(length = 512)
     private String rtImgLink;
 
     @ManyToOne(fetch = LAZY)
@@ -41,6 +44,17 @@ public class RestaurantImg {
         return RestaurantImg.builder()
                 .rtImgLink(rtImgLink)
                 .restaurant(restaurant)
+                .build();
+    }
+
+    /**
+     * restaurant cascade 생성
+     * @param rtImgLink
+     * @return
+     */
+    public static RestaurantImg createRestaurantImgWithCascade(String rtImgLink) {
+        return RestaurantImg.builder()
+                .rtImgLink(rtImgLink)
                 .build();
     }
 
