@@ -1,12 +1,10 @@
 spring:
-  config:
-    activate:
-      on-profile: db
   datasource:
-    url: jdbc:mysql://chaeso-rds.cjr4zeaxosnc.ap-northeast-2.rds.amazonaws.com/chaeso
-    username: chaeso
-    password: Chaeso1!
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/chaeso?serverTimezone=Asia/Seoul
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 1234
+
 
 
   jpa:
@@ -14,7 +12,7 @@ spring:
     database: mysql
     show-sql: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
