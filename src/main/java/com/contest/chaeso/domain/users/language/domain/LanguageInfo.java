@@ -14,7 +14,7 @@ public class LanguageInfo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "leng_id")
+    @Column(name = "lang_id")
     private Long id;
 
     @NotNull
