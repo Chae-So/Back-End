@@ -5,5 +5,5 @@ import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommuni
 import java.util.List;
 
 public interface CommunityQueryRepository {
-    List<ResponseCommunityListDto> findCommunityList();
+    List<ResponseCommunityListDto> findCommunityList(String sortOrder);
 }
