@@ -19,8 +19,8 @@ public class CommunityService {
     private final CommunityQueryRepository communityQueryRepositoryImpl;
 
     @Transactional(readOnly = true)
-    public List<ResponseCommunityListDto> communityList() {
-        List<ResponseCommunityListDto> communityList = communityQueryRepositoryImpl.findCommunityList();
+    public List<ResponseCommunityListDto> communityList(String sortOrder) {
+        List<ResponseCommunityListDto> communityList = communityQueryRepositoryImpl.findCommunityList(sortOrder);
         return communityList;
     }
 }
