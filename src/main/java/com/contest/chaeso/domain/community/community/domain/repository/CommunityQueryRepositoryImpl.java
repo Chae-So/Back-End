@@ -34,16 +34,22 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                 .select(Projections.constructor(
                         ResponseCommunityListDto.class,
                         community.id,
-                        community.users.userId,
-                        communityImg,
-                        communityLike,
-                        communityReview
+                        community.users.picture,
+                        community.users.nickname,
+                        communityImg.coImgLink,
+                        communityLike.users.count(),
+                        communityReview.users.count(),
+                        communityReview.users.picture,
+                        communityReview.users.nickname,
+                        communityReview.contents,
+                        communityReview.score
                 ))
                 .from(community, communityLike, communityReview, communityImg)
                 .join(communityLike.community, community)
                 .join(communityReview.community, community)
                 .join(communityImg.community, community)
                 .orderBy(communityListSortOrderCond(sortOrder))
+                .having()
                 .fetch();
     }
 
