@@ -2,10 +2,8 @@ package com.contest.chaeso.domain.community.community.domain.repository;
 
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
 import com.contest.chaeso.global.util.OrderByNull;
-import com.querydsl.core.types.NullExpression;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
-import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.*;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
 
@@ -37,8 +35,20 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                         community.users.picture,
                         community.users.nickname,
                         communityImg.coImgLink,
-                        communityLike.users.count(),
-                        communityReview.users.count(),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(communityLike.users.count())
+                                        .from(communityLike),
+                                        "likeCount"
+
+                        ),
+                        ExpressionUtils.as(
+                                JPAExpressions
+                                        .select(communityReview.users.count())
+                                        .from(communityReview),
+                                        "reviewCount"
+
+                        ),
                         communityReview.users.picture,
                         communityReview.users.nickname,
                         communityReview.contents,
@@ -57,7 +67,7 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
         Order order = Order.DESC;
 
         if (Objects.isNull(sortOrder)) {
-            return OrderByNull.getDefault();
+            return new OrderSpecifier<>(order, communityLike.id);
         }
 
         if (sortOrder.equals("BEST")) {
