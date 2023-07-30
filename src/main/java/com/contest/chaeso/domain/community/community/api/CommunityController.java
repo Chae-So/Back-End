@@ -1,14 +1,12 @@
 package com.contest.chaeso.domain.community.community.api;
 
+import com.contest.chaeso.domain.community.community.api.dto.req.RequestCommunityFormDto;
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
 import com.contest.chaeso.domain.community.community.application.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,9 +28,15 @@ public class CommunityController {
         return communityList;
     }
 
+    /**
+     * 커뮤니티 게시글 등록
+     * @param communityFormDto
+     * @return ResponseEntity
+     */
     @PostMapping("/posting")
-    public ResponseEntity postingCommunity() {
-        return null;
+    public ResponseEntity postingCommunity(@ModelAttribute RequestCommunityFormDto communityFormDto) {
+        Long savedId = communityService.postingCommunity(communityFormDto);
+        return ResponseEntity.ok(savedId);
     }
 
 }
