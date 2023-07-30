@@ -19,5 +19,6 @@ public class CommunityCategory {
 
     @NotNull
     @Column(length = 20)
-    private String categoryName;
+    @Enumerated(EnumType.STRING)
+    private CommunityCategoryType categoryName;
 }
