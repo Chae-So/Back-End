@@ -21,14 +21,9 @@ public class CommunityCategoryService {
 
     @Transactional(readOnly = true)
     public Map<Long, String> communityCategoryList() {
-
-        Map<Long, String> contents = new HashMap<>();
-        List<ResponseCommunityCategoryListDto> categoryList = categoryRepository.findAll().stream().map(category -> ResponseCommunityCategoryListDto.communityList(category)).collect(Collectors.toList());
-        for (ResponseCommunityCategoryListDto responseCommunityCategoryListDto : categoryList) {
-            contents.put(responseCommunityCategoryListDto.getCategoryId(), responseCommunityCategoryListDto.getCategoryName());
-        }
-
-        return contents;
+        return categoryRepository.findAll().stream()
+                .map(ResponseCommunityCategoryListDto::communityList)
+                .collect(Collectors.toMap(ResponseCommunityCategoryListDto::getCategoryId, ResponseCommunityCategoryListDto::getCategoryName));
     }
 
 }
