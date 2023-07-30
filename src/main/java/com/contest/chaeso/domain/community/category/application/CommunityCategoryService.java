@@ -30,7 +30,7 @@ public class CommunityCategoryService {
         Map<Long, String> contents = new HashMap<>();
         List<ResponseCommunityCategoryListDto> categoryList = categoryRepository.findAll().stream().map(category -> ResponseCommunityCategoryListDto.communityList(category)).collect(Collectors.toList());
         for (ResponseCommunityCategoryListDto responseCommunityCategoryListDto : categoryList) {
-            contents.put(responseCommunityCategoryListDto.getCategoryId(), CommunityCategoryType.valueOf(responseCommunityCategoryListDto.getCategoryName()).getName());
+            contents.put(responseCommunityCategoryListDto.getCategoryId(), responseCommunityCategoryListDto.getCategoryName());
         }
 
         return contents;

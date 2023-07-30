@@ -16,7 +16,7 @@ public class ResponseCommunityCategoryListDto {
     public static ResponseCommunityCategoryListDto communityList(CommunityCategory category) {
         return ResponseCommunityCategoryListDto.builder()
                 .categoryId(category.getId())
-                .categoryName(category.getCategoryName())
+                .categoryName(category.getCategoryName().getName())
                 .build();
     }
 
