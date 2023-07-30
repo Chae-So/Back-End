@@ -23,7 +23,7 @@ public class VeganInfoService {
     @Transactional(readOnly = true)
     public Map<Long, String> veganInfoList() {
         return veganInfoRepository.findAll().stream()
-                .map(vegan -> ResponseVeganInfoListDto.veganInfoList(vegan))
+                .map(ResponseVeganInfoListDto::veganInfoList)
                 .collect(Collectors.toMap(ResponseVeganInfoListDto::getVeganId, ResponseVeganInfoListDto::getVeganLevel));
     }
 }
