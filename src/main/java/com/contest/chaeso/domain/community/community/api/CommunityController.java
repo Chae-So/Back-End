@@ -4,7 +4,9 @@ import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommuni
 import com.contest.chaeso.domain.community.community.application.CommunityService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +28,11 @@ public class CommunityController {
     public List<ResponseCommunityListDto> communityList(String sortOrder) {
         List<ResponseCommunityListDto> communityList = communityService.communityList(sortOrder);
         return communityList;
+    }
+
+    @PostMapping("/posting")
+    public ResponseEntity postingCommunity() {
+        return null;
     }
 
 }
