@@ -8,14 +8,16 @@ import com.contest.chaeso.domain.community.community.domain.repository.Community
 import com.contest.chaeso.domain.community.img.api.dto.res.ResponseCommunityImgDto;
 import com.contest.chaeso.domain.community.img.domain.CommunityImg;
 import com.contest.chaeso.domain.community.img.domain.repository.CommunityImgRepository;
+import com.contest.chaeso.domain.community.review.review.api.dto.res.ResponseCommunityReviewListDto;
+import com.contest.chaeso.domain.community.review.review.domain.repository.CommunityReviewRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +27,7 @@ public class CommunityService {
     private final CommunityRepository communityRepository;
     private final CommunityQueryRepository communityQueryRepositoryImpl;
     private final CommunityImgRepository communityImgRepository;
+    private final CommunityReviewRepository communityReviewRepository;
 
     @Transactional(readOnly = true)
     public List<ResponseCommunityListDto> communityList(String sortOrder) {
