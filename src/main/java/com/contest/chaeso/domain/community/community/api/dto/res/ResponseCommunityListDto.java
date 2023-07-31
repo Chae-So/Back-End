@@ -10,15 +10,22 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResponseCommunityListDto {
 
+//    private Long communityId;
+//    private String picture;
+//    private String nickname;
+//    private String communityImg;
+//    private Long likeCount;
+//    private Long reviewCount;
+//    private String reviewerPicture;
+//    private String reviewerNickname;
+//    private String reviewContent;
+//    private Integer reviewScore;
+
     private Long communityId;
-    private String picture;
+    private String profilePicture;
     private String nickname;
     private String communityImg;
-    private Long communityLike;
+    private Long likeCount;
     private Long reviewCount;
-    private String reviewerPicture;
-    private String reviewerNickname;
-    private String reviewContent;
-    private Integer reviewScore;
 
 }
