@@ -1,10 +1,12 @@
 package com.contest.chaeso.domain.community.community.domain.repository;
 
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
+import com.contest.chaeso.domain.community.review.review.api.dto.res.ResponseCommunityReviewListDto;
 import com.contest.chaeso.global.util.OrderByNull;
 import com.querydsl.core.types.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -17,6 +19,7 @@ import static com.contest.chaeso.domain.community.like.domain.QCommunityLike.com
 import static com.contest.chaeso.domain.community.review.review.domain.QCommunityReview.communityReview;
 
 @Repository
+@Slf4j
 public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
 
     private final JPAQueryFactory query;
@@ -37,30 +40,24 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                         communityImg.coImgLink,
                         ExpressionUtils.as(
                                 JPAExpressions
-                                        .select(communityLike.users.count())
-                                        .from(communityLike),
-                                        "likeCount"
+                                        .select(communityLike.count())
+                                        .from(communityLike)
+                                        .where(communityLike.community.eq(community)),
+                                "likeCount"
 
                         ),
                         ExpressionUtils.as(
                                 JPAExpressions
-                                        .select(communityReview.users.count())
-                                        .from(communityReview),
-                                        "reviewCount"
-
-                        ),
-                        communityReview.users.picture,
-                        communityReview.users.nickname,
-                        communityReview.contents,
-                        communityReview.score
+                                        .select(communityReview.count())
+                                        .from(communityReview)
+                                        .where(communityReview.community.eq(community)),
+                                "reviewCount"
+                        )
                 ))
-                .from(community, communityLike, communityReview, communityImg)
-                .join(communityLike.community, community)
-                .join(communityReview.community, community)
-                .join(communityImg.community, community)
-                .orderBy(communityListSortOrderCond(sortOrder))
-                .having()
+                .from(community)
+                .leftJoin(communityImg).on(communityImg.community.eq(community))
                 .fetch();
+
     }
 
     private OrderSpecifier<?> communityListSortOrderCond(String sortOrder) {
