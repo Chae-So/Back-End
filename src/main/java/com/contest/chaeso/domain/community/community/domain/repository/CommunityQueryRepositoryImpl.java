@@ -1,5 +1,6 @@
 package com.contest.chaeso.domain.community.community.domain.repository;
 
+import com.contest.chaeso.domain.community.community.api.dto.res.QResponseCommunityListDto;
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
 import com.contest.chaeso.domain.community.review.review.api.dto.res.ResponseCommunityReviewListDto;
 import com.contest.chaeso.global.util.OrderByNull;
@@ -32,8 +33,7 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
     public List<ResponseCommunityListDto> findCommunityList(String sortOrder) {
 
         return query
-                .select(Projections.constructor(
-                        ResponseCommunityListDto.class,
+                .select(new QResponseCommunityListDto(
                         community.id,
                         community.users.picture,
                         community.users.nickname,
@@ -56,6 +56,8 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                 ))
                 .from(community)
                 .leftJoin(communityImg).on(communityImg.community.eq(community))
+                .leftJoin(communityLike).on(communityLike.community.eq(community))
+                .orderBy(communityListSortOrderCond(sortOrder))
                 .fetch();
 
     }
