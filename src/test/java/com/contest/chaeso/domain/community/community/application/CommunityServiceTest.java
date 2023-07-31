@@ -47,16 +47,24 @@ class CommunityServiceTest {
     @DisplayName("커뮤니티 피드 리스트")
     void CommunityServiceTest() throws Exception {
         //given
-        VeganInfo veganInfo = veganInfoRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_VEGAN_INFO));
-        CommunityCategory communityCategory = categoryRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMUNITY_CATEGORY));
-        Users users = usersRepository.findById(2L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-//        for (int i = 0; i < 100; i++) {
-//            communityRepository.save(new RequestCommunityFormDto("starlight.jpg", communityCategory, veganInfo, users, "서울특별시 은평구 갈현로 11길", "내용"+i).toEntity());
-//        }
+        // - 더미데이터
         //when
         List<ResponseCommunityListDto> communityCount = communityQueryRepositoryImpl.findCommunityList("BEST");
         //then
-
         assertThat(communityCount.size()).isEqualTo(100);
+    }
+
+    @Test
+    @DisplayName("커뮤니티 게시글 등록")
+    void postingCommunity() {
+        CommunityCategory communityCategory = categoryRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMUNITY_CATEGORY));
+        VeganInfo veganInfo = veganInfoRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_VEGAN_INFO));
+        Users users = usersRepository.findById(2L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
+        Community savedCommunityPost = null;
+        for (int i = 0; i < 5; i++) {
+            RequestCommunityFormDto communityFormDto = new RequestCommunityFormDto("test_image_" + i + "jpg", communityCategory, veganInfo, users, "경기도 성남시 분당구", "커뮤니티 테스트 게시글 내용" + i);
+            savedCommunityPost = communityRepository.save(communityFormDto.toEntity());
+        }
+        assertThat(savedCommunityPost).isNotNull();
     }
 }
