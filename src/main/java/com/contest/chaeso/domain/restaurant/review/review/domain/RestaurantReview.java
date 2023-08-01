@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +26,11 @@ public class RestaurantReview extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_review_id")
     private Long rtReviewId;
-
-//    private String writer; // user.name으로 --> 삭제
+    @NotNull
     private String title;
+    @NotNull
     private String contents;
+    @NotNull
     private int score;
 
     @ManyToOne(fetch = LAZY)
