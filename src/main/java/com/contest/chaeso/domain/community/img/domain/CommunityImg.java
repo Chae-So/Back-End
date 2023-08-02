@@ -24,7 +24,6 @@ public class CommunityImg {
     @JoinColumn(name = "co_id")
     private Community community;
 
-    @NotNull
     @Column(length = 512)
     private String coImgLink;
 }

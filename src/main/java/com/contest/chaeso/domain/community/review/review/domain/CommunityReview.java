@@ -30,15 +30,15 @@ public class CommunityReview extends BaseTimeEntity {
     @JoinColumn(name = "co_id")
     private Community community;
 
-    @NotNull
+//    @NotNull
     @Column(length = 30)
     private String writer;
 
-    @NotNull
+//    @NotNull
     @Column(columnDefinition = "text")
     private String contents;
 
-    @NotNull
+//    @NotNull
     private Integer score;
 
 }

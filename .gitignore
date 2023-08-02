@@ -1,7 +1,7 @@
 ## yml
 src/main/resources/application-db.yml
 src/main/resources/application-oauth.yml
-src/test/resources/application.yml
+src/test/resources/application-real.yml
 
 
 HELP.md
