@@ -20,6 +20,10 @@ public class Users {
 
     private String name;
 
+    public Users(String name) {
+        this.name = name;
+    }
+
 
     /**
      * oneToMany
