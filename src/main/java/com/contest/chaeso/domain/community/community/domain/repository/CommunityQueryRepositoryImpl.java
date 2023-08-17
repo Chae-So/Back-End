@@ -2,8 +2,10 @@ package com.contest.chaeso.domain.community.community.domain.repository;
 
 import com.contest.chaeso.domain.community.community.api.dto.res.QResponseCommunityListDto;
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
-import com.contest.chaeso.domain.community.review.review.api.dto.res.ResponseCommunityReviewListDto;
+import com.contest.chaeso.domain.community.img.api.dto.res.QResponseImgListDto;
+import com.contest.chaeso.domain.community.review.review.api.dto.res.QResponseCommunityReviewListDto;
 import com.contest.chaeso.global.util.OrderByNull;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.*;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -18,6 +20,7 @@ import static com.contest.chaeso.domain.community.community.domain.QCommunity.co
 import static com.contest.chaeso.domain.community.img.domain.QCommunityImg.communityImg;
 import static com.contest.chaeso.domain.community.like.domain.QCommunityLike.communityLike;
 import static com.contest.chaeso.domain.community.review.review.domain.QCommunityReview.communityReview;
+import static com.querydsl.core.group.GroupBy.groupBy;
 
 @Repository
 @Slf4j
@@ -37,7 +40,6 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                         community.id,
                         community.users.picture,
                         community.users.nickname,
-                        communityImg.coImgLink,
                         ExpressionUtils.as(
                                 JPAExpressions
                                         .select(communityLike.count())
@@ -55,7 +57,6 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                         )
                 ))
                 .from(community)
-                .leftJoin(communityImg).on(communityImg.community.eq(community))
                 .leftJoin(communityLike).on(communityLike.community.eq(community))
                 .orderBy(communityListSortOrderCond(sortOrder))
                 .fetch();
