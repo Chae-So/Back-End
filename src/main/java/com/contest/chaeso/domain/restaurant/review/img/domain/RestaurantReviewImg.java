@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -19,10 +20,10 @@ public class RestaurantReviewImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_review_img_id")
     private Long rtReviewImgId;
-
+    @NotNull
+    @Column(length = 512)
     private String rtReviewImgLink;
 
-    // user_id, rt_id 필요없음 db 삭제하기
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rt_review_id")
     private RestaurantReview restaurantReview;
@@ -44,6 +45,18 @@ public class RestaurantReviewImg {
         return RestaurantReviewImg.builder()
                 .rtReviewImgLink(rtReviewImgLink)
                 .restaurantReview(restaurantReview)
+                .build();
+    }
+
+    /**
+     * restaurant cascade 생성
+     * @param rtReviewImgLink
+     * @param restaurantReview
+     * @return
+     */
+    public static RestaurantReviewImg createRestaurantReviewImgWithCascade(String rtReviewImgLink){
+        return RestaurantReviewImg.builder()
+                .rtReviewImgLink(rtReviewImgLink)
                 .build();
     }
 

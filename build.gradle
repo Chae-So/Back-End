@@ -46,8 +46,14 @@ dependencies {
     // Swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
 
+    // Excel
+    implementation group: 'org.apache.poi', name: 'poi', version: '5.0.0'
+    implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '5.0.0'
+    implementation group: 'org.apache.tika', name: 'tika-core', version: '2.3.0'
+
     // jwt
     implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+    testImplementation 'org.projectlombok:lombok:1.18.22'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
 
@@ -63,6 +69,7 @@ dependencies {
     //slf4j(JUnit)
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
+
 }
 
 tasks.named('test') {

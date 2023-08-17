@@ -56,6 +56,7 @@ public class Users extends BaseTimeEntity {
     private String provider;
 
 
+
     /**
      * oneToMany
      *
@@ -63,4 +64,5 @@ public class Users extends BaseTimeEntity {
      *
      * restaurant review
      */
+
 }
