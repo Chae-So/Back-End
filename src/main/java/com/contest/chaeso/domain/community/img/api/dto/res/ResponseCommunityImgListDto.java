@@ -1,22 +1,27 @@
 package com.contest.chaeso.domain.community.img.api.dto.res;
 
-import com.contest.chaeso.domain.community.community.domain.Community;
 import com.contest.chaeso.domain.community.img.domain.CommunityImg;
-import com.querydsl.core.annotations.QueryProjection;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Getter
 @Builder
-public class ResponseImgListDto {
+@AllArgsConstructor
+public class ResponseCommunityImgListDto {
 
+    private Long communityId;
     private Long coImgId;
     private String imgUrl;
 
-    @QueryProjection
-    public ResponseImgListDto(Long coImgId, String imgUrl) {
-        this.coImgId = coImgId;
-        this.imgUrl = imgUrl;
+    public static ResponseCommunityImgListDto communityImgList(CommunityImg communityImg) {
+        return ResponseCommunityImgListDto.builder()
+                .communityId(communityImg.getCommunity().getId())
+                .coImgId(communityImg.getId())
+                .imgUrl(communityImg.getCoImgLink())
+                .build();
     }
 }

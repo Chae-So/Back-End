@@ -1,13 +1,18 @@
 package com.contest.chaeso.domain.community.community.api.dto.res;
 
-import com.contest.chaeso.domain.community.img.api.dto.res.ResponseImgListDto;
+import com.contest.chaeso.domain.community.img.api.dto.res.ResponseCommunityImgListDto;
+import com.contest.chaeso.domain.community.img.domain.CommunityImg;
 import com.querydsl.core.annotations.QueryProjection;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Getter
+@Builder
 public class ResponseCommunityListDto {
 
     private Long communityId;

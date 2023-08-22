@@ -2,7 +2,7 @@ package com.contest.chaeso.domain.community.community.domain.repository;
 
 import com.contest.chaeso.domain.community.community.api.dto.res.QResponseCommunityListDto;
 import com.contest.chaeso.domain.community.community.api.dto.res.ResponseCommunityListDto;
-import com.contest.chaeso.domain.community.img.api.dto.res.QResponseImgListDto;
+
 import com.contest.chaeso.domain.community.review.review.api.dto.res.QResponseCommunityReviewListDto;
 import com.contest.chaeso.global.util.OrderByNull;
 import com.querydsl.core.group.GroupBy;
@@ -34,7 +34,6 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
 
     @Override
     public List<ResponseCommunityListDto> findCommunityList(String sortOrder) {
-
         return query
                 .select(new QResponseCommunityListDto(
                         community.id,
@@ -55,6 +54,7 @@ public class CommunityQueryRepositoryImpl implements CommunityQueryRepository{
                                         .where(communityReview.community.eq(community)),
                                 "reviewCount"
                         )
+
                 ))
                 .from(community)
                 .leftJoin(communityLike).on(communityLike.community.eq(community))

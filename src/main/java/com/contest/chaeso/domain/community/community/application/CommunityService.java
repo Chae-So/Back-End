@@ -6,9 +6,8 @@ import com.contest.chaeso.domain.community.community.domain.Community;
 import com.contest.chaeso.domain.community.community.domain.repository.CommunityQueryRepository;
 import com.contest.chaeso.domain.community.community.domain.repository.CommunityRepository;
 import com.contest.chaeso.domain.community.img.api.dto.req.RequestCommunityImgDto;
-import com.contest.chaeso.domain.community.img.api.dto.res.ResponseImgListDto;
 import com.contest.chaeso.domain.community.img.domain.repository.CommunityImgRepository;
-import com.contest.chaeso.domain.community.review.review.domain.repository.CommunityReviewRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
