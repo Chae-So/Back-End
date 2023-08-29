@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RestaurantReviewResDto {
+public class RestaurantReviewDto {
 
     private Long rtReviewId;
     private String contents;
@@ -26,9 +26,11 @@ public class RestaurantReviewResDto {
     private LocalDateTime updatedAt;
     private String nickname;
 
-    private List<RestaurantReviewImgResDto> restaurantReviewImgList;
+    private String picture;
 
-    public RestaurantReviewResDto(RestaurantReview restaurantReview) {
+    private List<RestaurantReviewImgDto> restaurantReviewImgList;
+
+    public RestaurantReviewDto(RestaurantReview restaurantReview) {
         this.rtReviewId = restaurantReview.getRtReviewId();
         this.contents = restaurantReview.getContents();
         this.score = restaurantReview.getScore();
@@ -37,8 +39,9 @@ public class RestaurantReviewResDto {
         this.nonVeganFood = restaurantReview.getNonVeganFood();
         this.createdAt = restaurantReview.getCreatedAt();
         this.updatedAt = restaurantReview.getUpdatedAt();
-        this.nickname = restaurantReview.getUsers().getName(); /** nickname으로 바꿔야 함 */
-        this.restaurantReviewImgList = restaurantReview.getRestaurantReviewImgList().stream().map(RestaurantReviewImgResDto::new).collect(Collectors.toList());
+        this.nickname = restaurantReview.getUsers().getNickname();
+        this.picture = restaurantReview.getUsers().getPicture();
+        this.restaurantReviewImgList = restaurantReview.getRestaurantReviewImgList().stream().map(RestaurantReviewImgDto::new).collect(Collectors.toList());
     }
 
 }

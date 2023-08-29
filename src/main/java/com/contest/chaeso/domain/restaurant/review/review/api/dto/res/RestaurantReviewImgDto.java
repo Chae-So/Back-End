@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RestaurantReviewImgResDto {
+public class RestaurantReviewImgDto {
 
     private String rtReviewImgLink;
 
-    public RestaurantReviewImgResDto(RestaurantReviewImg restaurantReviewImg) {
+    public RestaurantReviewImgDto(RestaurantReviewImg restaurantReviewImg) {
         this.rtReviewImgLink = restaurantReviewImg.getRtReviewImgLink();
     }
 }

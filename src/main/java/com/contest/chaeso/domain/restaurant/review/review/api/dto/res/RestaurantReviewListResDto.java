@@ -11,10 +11,10 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RestaurantReviewListResDto {
 
-    private List<RestaurantReviewResDto> restaurantReviewList;
+    private List<RestaurantReviewDto> restaurantReviewList;
     private List<RestaurantScoreCountInterface> restaurantScoreCount;
 
-    public RestaurantReviewListResDto(List<RestaurantReviewResDto> restaurantReviewResDto, List<RestaurantScoreCountInterface> restaurantScoreCountInterface) {
+    public RestaurantReviewListResDto(List<RestaurantReviewDto> restaurantReviewResDto, List<RestaurantScoreCountInterface> restaurantScoreCountInterface) {
         this.restaurantReviewList = restaurantReviewResDto;
         this.restaurantScoreCount = restaurantScoreCountInterface;
     }

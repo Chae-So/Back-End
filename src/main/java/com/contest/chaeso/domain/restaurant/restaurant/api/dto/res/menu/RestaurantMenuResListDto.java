@@ -1,4 +1,4 @@
-package com.contest.chaeso.domain.restaurant.menu.menu.api.dto.res;
+package com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.menu;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,9 +9,9 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RestaurantMenuResListDto {
-    private List<RestaurantMenuInfoResDto> restaurantMenuInfoDto;
+    private List<RestaurantMenuInfoDto> restaurantMenuInfoDto;
 
-    public RestaurantMenuResListDto(List<RestaurantMenuInfoResDto> restaurantMenuInfoDto) {
+    public RestaurantMenuResListDto(List<RestaurantMenuInfoDto> restaurantMenuInfoDto) {
         this.restaurantMenuInfoDto = restaurantMenuInfoDto;
     }
 }

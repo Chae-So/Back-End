@@ -30,7 +30,6 @@ public class RestaurantReviewRepositoryTest {
 
     @Autowired
     RestaurantReviewRepository restaurantReviewRepository;
-
     @Autowired
     RestaurantReviewImgRepository restaurantReviewImgRepository;
 

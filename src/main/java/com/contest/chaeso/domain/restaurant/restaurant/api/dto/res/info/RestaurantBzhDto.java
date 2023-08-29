@@ -1,4 +1,4 @@
-package com.contest.chaeso.domain.restaurant.restaurant.api.dto.res;
+package com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info;
 
 import com.contest.chaeso.domain.restaurant.bzhour.domain.RestaurantBzh;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -10,7 +10,7 @@ import java.time.LocalTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class RestaurantBzhResDto {
+public class RestaurantBzhDto {
 
     private Integer days;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "kk:mm:ss", timezone = "Asia/Seoul")
@@ -22,7 +22,7 @@ public class RestaurantBzhResDto {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "kk:mm:ss", timezone = "Asia/Seoul")
     private LocalTime lastOrderTime;
 
-    public RestaurantBzhResDto(RestaurantBzh restaurantBzh) {
+    public RestaurantBzhDto(RestaurantBzh restaurantBzh) {
         this.days = restaurantBzh.getDays();
         this.startTime = restaurantBzh.getStartTime();
         this.endTime = restaurantBzh.getEndTime();

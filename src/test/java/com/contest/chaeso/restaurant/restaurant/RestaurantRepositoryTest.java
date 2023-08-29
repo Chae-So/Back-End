@@ -39,9 +39,9 @@ public class RestaurantRepositoryTest {
         // given
         Long userId = 2L;
         int days = 1; // 1 : 월요일, 7 : 일요일
-
+        int flag = 1; // 대표메뉴
         // when
-        List<RestaurantMainInfoResInterface> restaurantMainInfoList = restaurantRepository.findRestaurantMainInfoList(userId, days);
+        List<RestaurantMainInfoResInterface> restaurantMainInfoList = restaurantRepository.findRestaurantList(userId, days, flag);
 
         // then
         assertThat(restaurantMainInfoList.size()).isEqualTo(6);
@@ -55,7 +55,7 @@ public class RestaurantRepositoryTest {
         Long rtId = 4L;
 
         // when
-        Restaurant restaurant = restaurantRepository.findRestaurantInfoByRtId(rtId);
+        Restaurant restaurant = restaurantRepository.findRestaurantBzhByRtId(rtId);
 
         // then
         List<RestaurantBzh> restaurantBzhList = restaurant.getRestaurantBzhList();

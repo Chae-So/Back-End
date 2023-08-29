@@ -3,7 +3,7 @@ package com.contest.chaeso.domain.restaurant.restaurant.domain;
 import com.contest.chaeso.domain.restaurant.bookmark.domain.RestaurantBookmark;
 import com.contest.chaeso.domain.restaurant.bzhour.domain.RestaurantBzh;
 import com.contest.chaeso.domain.restaurant.img.domain.RestaurantImg;
-import com.contest.chaeso.domain.restaurant.menu.menu.domain.RestaurantMenu;
+import com.contest.chaeso.domain.restaurant.menu.domain.RestaurantMenu;
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
@@ -32,10 +32,10 @@ public class Restaurant {
     @NotNull
     private String category;
 
-    private String address; // 경기도 성남시 분당구 판교역로 166
-
     private String phoneNumber;
 
+    @Embedded
+    private Address address;
     @Embedded
     private MealType mealType;
 
@@ -56,7 +56,7 @@ public class Restaurant {
     private List<RestaurantBzh> restaurantBzhList = new ArrayList<>();
 
     @Builder
-    private Restaurant(String name, String category, String address, String phoneNumber, MealType mealType) {
+    private Restaurant(String name, String category, Address address, String phoneNumber, MealType mealType) {
         this.name = name;
         this.category = category;
         this.address = address;
@@ -71,7 +71,7 @@ public class Restaurant {
      * @param mealType
      * @return
      */
-    public static Restaurant createRestaurant(String name, String category, String address, String phoneNumber,MealType mealType) {
+    public static Restaurant createRestaurant(String name, String category, Address address, String phoneNumber,MealType mealType) {
         return Restaurant.builder()
                 .name(name)
                 .category(category)

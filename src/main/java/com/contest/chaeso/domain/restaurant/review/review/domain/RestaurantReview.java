@@ -37,7 +37,6 @@ public class RestaurantReview extends BaseTimeEntity {
     private String companyVeganType;
     private Integer nonVeganFood;
 
-    @JsonIgnore
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Users users;

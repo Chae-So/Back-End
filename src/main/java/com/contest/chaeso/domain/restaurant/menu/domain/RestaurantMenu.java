@@ -1,6 +1,5 @@
-package com.contest.chaeso.domain.restaurant.menu.menu.domain;
+package com.contest.chaeso.domain.restaurant.menu.domain;
 
-import com.contest.chaeso.domain.restaurant.menu.img.domain.RestaurantMenuImg;
 import com.contest.chaeso.domain.restaurant.restaurant.domain.Restaurant;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -9,9 +8,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -29,17 +25,18 @@ public class RestaurantMenu {
     @NotNull
     private int price;
 
+    private String menuImgLink;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rt_id")
     private Restaurant restaurant;
 
-    @OneToMany(mappedBy = "restaurantMenu", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
-    private List<RestaurantMenuImg> restaurantMenuImgList = new ArrayList<>();
 
     @Builder
-    private RestaurantMenu(String menuName, int price, Restaurant restaurant) {
+    private RestaurantMenu(String menuName, int price, String menuImgLink, Restaurant restaurant) {
         this.menuName = menuName;
         this.price = price;
+        this.menuImgLink = menuImgLink;
         this.restaurant = restaurant;
     }
 
@@ -50,10 +47,11 @@ public class RestaurantMenu {
      * @param restaurant
      * @return
      */
-    public static RestaurantMenu createRestaurantMenu(String menuName, int price, Restaurant restaurant){
+    public static RestaurantMenu createRestaurantMenu(String menuName, int price, String menuImgLink, Restaurant restaurant){
         return RestaurantMenu.builder()
                 .menuName(menuName)
                 .price(price)
+                .menuImgLink(menuImgLink)
                 .restaurant(restaurant)
                 .build();
 
@@ -65,10 +63,11 @@ public class RestaurantMenu {
      * @param price
      * @return
      */
-    public static RestaurantMenu createRestaurantMenuWithCascade(String menuName, int price){
+    public static RestaurantMenu createRestaurantMenuWithCascade(String menuName, int price, String menuImgLink){
         return RestaurantMenu.builder()
                 .menuName(menuName)
                 .price(price)
+                .menuImgLink(menuImgLink)
                 .build();
 
     }
@@ -77,16 +76,6 @@ public class RestaurantMenu {
         this.restaurant = restaurant;
     }
 
-    /**
-     * 양방향 연관관계, cascade persist
-     */
-    public void addRestaurantMenuImg(RestaurantMenuImg restaurantMenuImg){
-        if (restaurantMenuImg.getRestaurantMenu() != null) {
-            restaurantMenuImg.getRestaurantMenu().getRestaurantMenuImgList().remove(restaurantMenuImg);
-        }
-        restaurantMenuImg.setRestaurantMenu(this);
-        this.getRestaurantMenuImgList().add(restaurantMenuImg);
-    }
 
 
 }

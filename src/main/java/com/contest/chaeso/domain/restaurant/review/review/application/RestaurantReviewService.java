@@ -6,7 +6,7 @@ import com.contest.chaeso.domain.restaurant.review.img.domain.RestaurantReviewIm
 import com.contest.chaeso.domain.restaurant.review.img.domain.repository.RestaurantReviewImgRepository;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.req.RestaurantReviewReqDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewListResDto;
-import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewResDto;
+import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantScoreCountInterface;
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
 import com.contest.chaeso.domain.restaurant.review.review.domain.repository.RestaurantReviewRepository;
@@ -37,7 +37,8 @@ public class RestaurantReviewService {
     public RestaurantReviewListResDto getRestaurantReviewList(Long rtId){
         // review List
         List<RestaurantReview> restaurantReviewByRestaurant = restaurantReviewRepository.findRestaurantReviewByRestaurant(rtId);
-        List<RestaurantReviewResDto> restaurantReviewList = restaurantReviewByRestaurant.stream().map(RestaurantReviewResDto::new).collect(Collectors.toList());
+
+        List<RestaurantReviewDto> restaurantReviewList = restaurantReviewByRestaurant.stream().map(RestaurantReviewDto::new).collect(Collectors.toList());
 
         // score count
         List<RestaurantScoreCountInterface> restaurantScoreCount = restaurantReviewRepository.findRestaurantScoreCount(rtId);
