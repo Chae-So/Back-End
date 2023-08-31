@@ -1,23 +1,9 @@
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/chaeso?serverTimezone=Asia/Seoul
-    driver-class-name: com.mysql.jdbc.Driver
-    username: root
-    password: 1234
-
   mvc:
     pathmatch:
-      matching-strategy: ant_path_matcher
-
-  jpa:
-    open-in-view: false
-    database: mysql
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 500
-        dialect:
-          storage_engine: innodb
+      matching-strategy: ant_path_matcher # swagger 에러 해결
+  profiles:
+    include:
+      - real
+      - db
+      - oauth

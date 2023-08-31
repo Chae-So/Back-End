@@ -20,12 +20,12 @@ public class CommunityController {
 
     /**
      * 커뮤니티 게시글 리스트
+     *
      * @return communityList
      */
     @GetMapping
     public List<ResponseCommunityListDto> communityList(String sortOrder) {
-        List<ResponseCommunityListDto> communityList = communityService.communityList(sortOrder);
-        return communityList;
+        return communityService.communityList(sortOrder);
     }
 
     /**
