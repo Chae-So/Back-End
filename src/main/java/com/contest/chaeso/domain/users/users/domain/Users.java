@@ -4,10 +4,7 @@ package com.contest.chaeso.domain.users.users.domain;
 import com.contest.chaeso.domain.common.BaseTimeEntity;
 import com.contest.chaeso.domain.users.language.domain.LanguageInfo;
 import com.contest.chaeso.domain.users.vegan.domain.VeganInfo;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
@@ -19,6 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
+@Builder
 @Entity
 public class Users extends BaseTimeEntity {
 
