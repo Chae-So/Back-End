@@ -20,7 +20,6 @@ public class RestaurantImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_img_id")
     private Long rtBMarkId;
-    @NotNull
     @Column(length = 512)
     private String rtImgLink;
     private int flag;

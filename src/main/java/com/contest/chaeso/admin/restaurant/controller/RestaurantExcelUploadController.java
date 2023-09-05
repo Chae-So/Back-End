@@ -12,11 +12,10 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -33,7 +32,7 @@ public class RestaurantExcelUploadController {
 
 
     @PostMapping("/rt/excel/upload")
-    public String restaurantExcelUpload(@RequestParam("file") MultipartFile file, Model model) throws IOException {
+    public ResponseEntity<String> restaurantExcelUpload(@RequestPart("file") MultipartFile file) throws IOException {
 
         List<RestaurantExcelDto> restaurantExcelDtoList = new ArrayList<>(); //restaurant list
         List<RestaurantMenuExcelDto> restaurantMenuExcelDtoList = new ArrayList<>(); //restaurant menu list
@@ -53,7 +52,7 @@ public class RestaurantExcelUploadController {
         }
 
         Sheet worksheet1 = workbook.getSheetAt(0); // 1번쨰 sheet
-        Sheet worksheet2 = workbook.getSheetAt(1); // 1번쨰 sheet
+        Sheet worksheet2 = workbook.getSheetAt(1); // 2번쨰 sheet
 
         String originalFilename = file.getOriginalFilename();
         log.info("[originalFilename] : {}", originalFilename);
@@ -62,20 +61,31 @@ public class RestaurantExcelUploadController {
         for (int i = 2; i < worksheet1.getPhysicalNumberOfRows(); i++) { // 1행부터
             Row row = worksheet1.getRow(i);
 
-            String name = row.getCell(0).getStringCellValue();
-            String category = row.getCell(1).getStringCellValue();
-            String phoneNumber = row.getCell(2).getStringCellValue();
-            String address = row.getCell(3).getStringCellValue();
-            Float corpLat = (float) row.getCell(4).getNumericCellValue();
-            Float corpLon = (float) row.getCell(5).getNumericCellValue();
+            String name = row.getCell(0).getStringCellValue().strip();
+            log.info("====== name : " + name);
+            String category = row.getCell(1).getStringCellValue().strip();
+            log.info("====== category : " + category);
+            String phoneNumber = row.getCell(2).getStringCellValue().strip();
+            log.info("====== phonenumber" + phoneNumber);
+            String address = row.getCell(3).getStringCellValue().strip();
+            log.info("======" + address);
+            Double corpLat = row.getCell(4).getNumericCellValue();
+            log.info("======" + corpLat);
+            Double corpLon = row.getCell(5).getNumericCellValue();
+            log.info("======" + corpLon);
             int forHere = (int) row.getCell(6).getNumericCellValue();
+            log.info("======" + forHere);
             int toGo = (int) row.getCell(7).getNumericCellValue();
+            log.info("======" + toGo);
             int delivery = (int) row.getCell(8).getNumericCellValue();
-            String bzh = row.getCell(9).getStringCellValue(); //영업일
+            log.info("======" + delivery);
+            String rtImgLink = row.getCell(9).getStringCellValue().strip();
+            log.info("======" + rtImgLink);
+            String bzh = row.getCell(10).getStringCellValue().strip();
+            log.info("======" + bzh);
 
 
-            RestaurantExcelDto data = new RestaurantExcelDto(name, category, phoneNumber, address, corpLat, corpLon, forHere, toGo, delivery, bzh);
-
+            RestaurantExcelDto data = new RestaurantExcelDto(name, category, phoneNumber, address, corpLat, corpLon, forHere, toGo, delivery, rtImgLink, bzh);
             restaurantExcelDtoList.add(data);
         }
 
@@ -94,11 +104,10 @@ public class RestaurantExcelUploadController {
 
         }
 
-        model.addAttribute("datas", restaurantExcelDtoList); // 이제 여기 db에 넣기
 
-        excelUploadService.saveRestaurantAndMEnu(restaurantExcelDtoList, restaurantMenuExcelDtoList);
+        excelUploadService.saveRestaurantAndMenu(restaurantExcelDtoList, restaurantMenuExcelDtoList);
 
-        return "/admin/excel-list2";
+        return new ResponseEntity<>("success", HttpStatus.OK);
 
     }
 

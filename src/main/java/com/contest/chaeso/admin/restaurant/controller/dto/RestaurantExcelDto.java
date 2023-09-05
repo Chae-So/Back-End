@@ -12,14 +12,15 @@ public class RestaurantExcelDto {
     private String category;
     private String phoneNumber;
     private String address;
-    private Float corpLat;
-    private Float corpLon;
+    private Double corpLat;
+    private Double corpLon;
     private int forHere;
     private int toGo;
     private int delivery;
+    private String rtImgLink;
     private String bzh; //영업일
 
-    public RestaurantExcelDto(String name, String category, String phoneNumber, String address, Float corpLat, Float corpLon, int forHere, int toGo, int delivery, String bzh) {
+    public RestaurantExcelDto(String name, String category, String phoneNumber, String address, Double corpLat, Double corpLon, int forHere, int toGo, int delivery, String rtImgLink, String bzh) {
         this.name = name;
         this.category = category;
         this.phoneNumber = phoneNumber;
@@ -29,6 +30,7 @@ public class RestaurantExcelDto {
         this.forHere = forHere;
         this.toGo = toGo;
         this.delivery = delivery;
+        this.rtImgLink = rtImgLink;
         this.bzh = bzh;
     }
 }

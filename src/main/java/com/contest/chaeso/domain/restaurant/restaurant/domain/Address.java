@@ -11,10 +11,10 @@ import javax.persistence.Embeddable;
 public class Address {
 
     private String address; // 경기도 성남시 분당구 판교역로 166
-    private Float corpLat;
-    private Float corpLon;
+    private Double corpLat;
+    private Double corpLon;
 
-    public Address(String address, Float corpLat, Float corpLon) {
+    public Address(String address, Double corpLat, Double corpLon) {
         this.address = address;
         this.corpLat = corpLat;
         this.corpLon = corpLon;
