@@ -125,6 +125,19 @@ public class RestaurantService {
 
     }
 
+    /**
+     * mypage 나의 북마크 레스토랑 리스트
+     * @return
+     */
+    public RestaurantMainInfoListResDto getBookmarkRestaurantList(Long userId, int flag){
+        int today = getToday();
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findMyBookmarkRestaurantList(userId, today, flag);
+        RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
+
+        return mainResponseDto;
+    }
+
+
 
     private int getToday(){
         LocalDate now = LocalDate.now();

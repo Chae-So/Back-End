@@ -47,9 +47,6 @@ public class RestaurantController {
     public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByMyPosition(@RequestParam("myLon") BigDecimal myLon,
                                                                                       @RequestParam("myLat") BigDecimal myLat){
         /** userId 받아와야 함 */
-        BigDecimal myLonTest = new BigDecimal(126.982000); /** 수정해야함 */
-        BigDecimal myLatTest = new BigDecimal(37.56673);
-
         RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoListByMyPosition(1L, IMG_FLAG, myLon, myLat, RANGE);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
