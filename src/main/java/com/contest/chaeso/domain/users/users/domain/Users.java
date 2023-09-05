@@ -33,28 +33,16 @@ public class Users extends BaseTimeEntity {
     @JoinColumn(name = "lang_id")
     private LanguageInfo languageInfo;
 
-    @NotNull
-    @Column(length = 50)
     private String email;
 
-    @NotNull
     @Column(length = 100)
     private String pw;
 
-    @NotNull
     @Column(length = 30)
     private String nickname;
 
-    @NotNull
-    @Column(length = 50)
-    private String name;
-
     @Column(length = 512)
     private String picture;
-
-    @NotNull
-    @Column(length = 40)
-    private String provider;
 
     @Enumerated(EnumType.STRING)
     private Role role;
