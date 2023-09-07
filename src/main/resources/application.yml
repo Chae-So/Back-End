@@ -6,4 +6,5 @@ spring:
     include:
       - real
       - db
+      - develop
       - oauth

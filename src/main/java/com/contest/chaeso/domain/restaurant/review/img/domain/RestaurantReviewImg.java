@@ -1,6 +1,7 @@
 package com.contest.chaeso.domain.restaurant.review.img.domain;
 
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +25,7 @@ public class RestaurantReviewImg {
     @Column(length = 512)
     private String rtReviewImgLink;
 
+    @JsonBackReference
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rt_review_id")
     private RestaurantReview restaurantReview;
@@ -51,7 +53,6 @@ public class RestaurantReviewImg {
     /**
      * restaurant cascade 생성
      * @param rtReviewImgLink
-     * @param restaurantReview
      * @return
      */
     public static RestaurantReviewImg createRestaurantReviewImgWithCascade(String rtReviewImgLink){
