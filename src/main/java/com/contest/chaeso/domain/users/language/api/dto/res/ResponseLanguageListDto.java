@@ -10,11 +10,13 @@ import lombok.Getter;
 @Builder
 public class ResponseLanguageListDto {
 
+    private Long languageId;
     private String languageType;
     private String languageName;
 
     public static ResponseLanguageListDto languageListInfo(LanguageInfo languageInfo) {
         return ResponseLanguageListDto.builder()
+                .languageId(languageInfo.getId())
                 .languageType(languageInfo.getLanguage().name())
                 .languageName(languageInfo.getLanguage().getName())
                 .build();
