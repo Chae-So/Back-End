@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -42,6 +44,7 @@ public class UserService {
                 .email(userSignUpDto.getEmail())
                 .pw(userSignUpDto.getPw())
                 .nickname(userSignUpDto.getNickname())
+                .picture(userSignUpDto.getPicture())
                 .languageInfo(findLanguage)
                 .veganInfo(findVegan)
                 .role(Role.USER)
@@ -49,5 +52,12 @@ public class UserService {
 
         user.passwordEncode(passwordEncoder);
         usersRepository.save(user);
+    }
+
+    @Transactional
+    public void CheckForDuplicateNickname(String nickname) {
+        usersRepository.findUsersByNickname(nickname).ifPresent(user -> {
+            throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
+        });
     }
 }
