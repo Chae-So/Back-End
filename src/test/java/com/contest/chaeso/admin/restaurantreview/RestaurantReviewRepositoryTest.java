@@ -3,6 +3,7 @@ package com.contest.chaeso.admin.restaurantreview;
 import com.contest.chaeso.domain.restaurant.restaurant.domain.Restaurant;
 import com.contest.chaeso.domain.restaurant.restaurant.domain.repository.RestaurantRepository;
 import com.contest.chaeso.domain.restaurant.review.img.domain.RestaurantReviewImg;
+import com.contest.chaeso.domain.restaurant.review.review.api.dto.req.RestaurantReviewReqDto;
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
 import com.contest.chaeso.domain.restaurant.review.review.domain.repository.RestaurantReviewRepository;
 import com.contest.chaeso.domain.users.users.domain.Users;
@@ -25,18 +26,15 @@ public class RestaurantReviewRepositoryTest {
     RestaurantRepository restaurantRepository;
     @Autowired
     UsersRepository usersRepository;
-    /**
-     * SELECT * from users u; -- 5개
-     * SELECT * from restaurant r; -- 6개
-     * SELECT * from restaurant_review rr; -- 30개(5x6)
-     * SELECT * from restaurant_review_img rri; -- 90개(30x3)
-     */
+    @Autowired
+    RestaurantReviewRepository restaurantReviewRepository;
+
     @DisplayName("레스토랑 리뷰 save test ")
-    @Transactional
+//    @Transactional
     @Test
     public void insertRestaurantReviewTest(){
         // given
-        String reReviewImgLink = "TestLink";
+        String reReviewImgLink = "Review Img TestLink";
 
         for(long i = 1; i <= 5; i++){
             Users user = usersRepository.findById(i).get();
@@ -47,7 +45,7 @@ public class RestaurantReviewRepositoryTest {
                 int score = (int)((Math.random() * 10000) % 5) + 1;
 
                 // restaurant review
-                RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview("title test", "contents test", score, user, restaurant);
+                RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(new RestaurantReviewReqDto("contents test", score, "혼자서", "비건", 1), user, restaurant);
 
                 // restaurant review img
                 RestaurantReviewImg rtReImg1 = RestaurantReviewImg.createRestaurantReviewImgWithCascade(reReviewImgLink);
@@ -65,10 +63,44 @@ public class RestaurantReviewRepositoryTest {
         }
 
 
+    }
 
+
+    @Test
+    @Transactional
+    public void reviewNonVeganUpdateTest(){
+        // given
+        for(long i = 31; i <= 60; i++){
+            RestaurantReview restaurantReview = restaurantReviewRepository.findById(i).get();
+            restaurantReview.updateNonVeganFood((int)i % 2);
+            restaurantReviewRepository.save(restaurantReview); // update 쿼리 나감
+        }
+        // when
+
+        // then
 
     }
 
-    @Autowired
-    RestaurantReviewRepository restaurantReviewRepository;
+    @DisplayName("review에서 review save Test")
+    @Transactional
+    @Test
+    public void saveReviewTest(){
+        // given
+        Long userId = 1L;
+        Long rtId = 1L;
+        Restaurant restaurant = restaurantRepository.findById(rtId).get();
+        Users user = usersRepository.findById(userId).get();
+        RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(new RestaurantReviewReqDto("restaurant Review에서 save test", 5, "혼자서", "비건", 1), user, restaurant);
+        RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade("111restaurant Review에서 save test");
+        RestaurantReviewImg restaurantReviewImg2 = RestaurantReviewImg.createRestaurantReviewImgWithCascade("222restaurant Review에서 save test");
+
+        // when
+        restaurantReview.addRestaurantReviewImg(restaurantReviewImg);
+        restaurantReview.addRestaurantReviewImg(restaurantReviewImg2);
+        restaurantReviewRepository.save(restaurantReview);
+
+        // then
+
+    }
+
 }

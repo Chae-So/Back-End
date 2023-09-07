@@ -27,7 +27,7 @@ public class RestaurantBzh {
     @Column(name = "rt_bzh_id")
     private Long rtBzhId;
     @NotNull
-    private String day;
+    private Integer days;
     private LocalTime startTime;
     private LocalTime endTime;
     private LocalTime breakTime;
@@ -38,8 +38,8 @@ public class RestaurantBzh {
     private Restaurant restaurant;
 
     @Builder
-    private RestaurantBzh(String day, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime, Restaurant restaurant) {
-        this.day = day;
+    private RestaurantBzh(Integer days, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime, Restaurant restaurant) {
+        this.days = days;
         this.startTime = startTime;
         this.endTime = endTime;
         this.breakTime = breakTime;
@@ -49,16 +49,16 @@ public class RestaurantBzh {
 
     /**
      * 생성 메서드
-     * @param day
+     * @param days
      * @param startTime
      * @param endTime
      * @param breakTime
      * @param lastOrderTime
      * @return
      */
-    public static RestaurantBzh createRestaurantBzh(String day, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime, Restaurant restaurant) {
+    public static RestaurantBzh createRestaurantBzh(Integer days, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime, Restaurant restaurant) {
         return RestaurantBzh.builder()
-                .day(day)
+                .days(days)
                 .startTime(startTime)
                 .endTime(endTime)
                 .breakTime(breakTime)
@@ -69,16 +69,16 @@ public class RestaurantBzh {
 
     /**
      * restaurant cascade 생성
-     * @param day
+     * @param days
      * @param startTime
      * @param endTime
      * @param breakTime
      * @param lastOrderTime
      * @return
      */
-    public static RestaurantBzh createRestaurantBzhWithCascade(String day, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime) {
+    public static RestaurantBzh createRestaurantBzhWithCascade(Integer days, LocalTime startTime, LocalTime endTime, LocalTime breakTime, LocalTime lastOrderTime) {
         return RestaurantBzh.builder()
-                .day(day)
+                .days(days)
                 .startTime(startTime)
                 .endTime(endTime)
                 .breakTime(breakTime)

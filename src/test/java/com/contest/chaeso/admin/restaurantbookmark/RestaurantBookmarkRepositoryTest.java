@@ -30,6 +30,18 @@ public class RestaurantBookmarkRepositoryTest {
     RestaurantBookmarkRepository restaurantBookmarkRepository;
 
 
+    @DisplayName("유저 추가")
+    @Transactional
+    @Test
+    public void user(){
+        // given
+        for(int i = 1; i <= 5; i++){
+            Users users = new Users("test" + i);
+            usersRepository.save(users);
+        }
+
+    }
+
     /**
      * SELECT * from users u; -- 5개
      * SELECT * from restaurant r; -- 6개
@@ -46,16 +58,34 @@ public class RestaurantBookmarkRepositoryTest {
             Users user = usersRepository.findById(i).get();
 
             for (long j = 1; j <= 6; j++) {
-                Restaurant restaurant = restaurantRepository.findById(j).get();
-
-                RestaurantBookmark restaurantBookmark = RestaurantBookmark.createRestaurantBookmark(user, restaurant);
-
-                restaurantBookmarkRepository.save(restaurantBookmark);
-
+                saveBookmark(j, user);
             }
 
         }
 
+    }
+
+    @DisplayName("짝수 삭제")
+    @Transactional
+    @Test
+    public void deleteRestaurantBookmarkTest(){
+        // given
+        for(long i = 1; i <= 30; i++){
+            long temp = i % 2;
+            if(temp == 0){
+                restaurantBookmarkRepository.deleteById(i);
+
+            }
+        }
+
+    }
+
+    private void saveBookmark(long j, Users user){
+        Restaurant restaurant = restaurantRepository.findById(j).get();
+
+        RestaurantBookmark restaurantBookmark = RestaurantBookmark.createRestaurantBookmark(user, restaurant);
+
+        restaurantBookmarkRepository.save(restaurantBookmark);
     }
 
 
