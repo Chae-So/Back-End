@@ -109,10 +109,17 @@ public class RestaurantExcelUploadService {
 
             }
 
+
             if (!start.equals("정기휴무")) {
                 String end = line[2];
                 startTime = LocalTime.parse(start);
-                endTime = LocalTime.parse(end);
+                if (end.equals("소진시까지")) {
+                    endTime = null;
+
+                }
+                else{
+                    endTime = LocalTime.parse(end);
+                }
             }
 
             RestaurantBzh restaurantBzhWithCascade = RestaurantBzh.createRestaurantBzhWithCascade(days, startTime, endTime, null, null);
