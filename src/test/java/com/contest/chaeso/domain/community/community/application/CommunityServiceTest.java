@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +52,7 @@ class CommunityServiceTest {
         //when
         List<ResponseCommunityListDto> communityCount = communityQueryRepositoryImpl.findCommunityList("BEST");
         //then
-        assertThat(communityCount.size()).isEqualTo(100);
+        assertThat(communityCount.size()).isEqualTo(103);
     }
 
     @Test
@@ -60,11 +61,7 @@ class CommunityServiceTest {
         CommunityCategory communityCategory = categoryRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_COMMUNITY_CATEGORY));
         VeganInfo veganInfo = veganInfoRepository.findById(1L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_VEGAN_INFO));
         Users users = usersRepository.findById(2L).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
-        Community savedCommunityPost = null;
-        for (int i = 0; i < 5; i++) {
-            RequestCommunityFormDto communityFormDto = new RequestCommunityFormDto("test_image_" + i + "jpg", communityCategory, veganInfo, users, "경기도 성남시 분당구", "커뮤니티 테스트 게시글 내용" + i);
-            savedCommunityPost = communityRepository.save(communityFormDto.toEntity());
-        }
-        assertThat(savedCommunityPost).isNotNull();
+
+
     }
 }

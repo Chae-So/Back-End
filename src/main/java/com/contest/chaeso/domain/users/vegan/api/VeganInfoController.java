@@ -1,15 +1,15 @@
 package com.contest.chaeso.domain.users.vegan.api;
 
 
+import com.contest.chaeso.domain.users.vegan.api.dto.res.ResponseVeganInfoListDto;
 import com.contest.chaeso.domain.users.vegan.application.VeganInfoService;
-import com.contest.chaeso.domain.users.vegan.domain.VeganLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,10 +21,11 @@ public class VeganInfoController {
 
     /**
      * 비건 단계 리스트 출력
-     * @return Map<Long, String>
+     *
+     * @return List<ResponseVeganInfoListDto>
      */
     @GetMapping
-    public Map<Long, String> veganInfo() {
+    public List<ResponseVeganInfoListDto> veganInfo() {
         return veganInfoService.veganInfoList();
     }
 }

@@ -7,4 +7,5 @@ spring:
       - real
       - db
       - oauth
-
+      - jwt
+      - develop

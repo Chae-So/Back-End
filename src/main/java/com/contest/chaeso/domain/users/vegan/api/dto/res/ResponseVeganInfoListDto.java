@@ -11,11 +11,13 @@ import lombok.Getter;
 public class ResponseVeganInfoListDto {
 
     private Long veganId;
+    private String veganType;
     private String veganLevel;
 
     public static ResponseVeganInfoListDto veganInfoList(VeganInfo veganInfo) {
         return ResponseVeganInfoListDto.builder()
                 .veganId(veganInfo.getId())
+                .veganType(veganInfo.getLevel().name())
                 .veganLevel(veganInfo.getLevel().getName())
                 .build();
     }
