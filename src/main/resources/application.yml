@@ -6,5 +6,6 @@ spring:
     include:
       - real
       - db
-      - develop
       - oauth
+      - jwt
+      - develop
