@@ -25,6 +25,7 @@ public class RestaurantMenu {
     @NotNull
     private int price;
 
+    @Column(length = 512)
     private String menuImgLink;
 
     @ManyToOne(fetch = LAZY)
