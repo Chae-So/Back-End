@@ -3,6 +3,8 @@ package com.contest.chaeso.domain.restaurant.review.review.api;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.req.RestaurantReviewReqDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewListResDto;
 import com.contest.chaeso.domain.restaurant.review.review.application.RestaurantReviewService;
+import com.contest.chaeso.global.resolver.UserInfoFromHeader;
+import com.contest.chaeso.global.resolver.UserInfoFromHeaderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -30,19 +32,19 @@ public class RestaurantReviewController {
 
     @PostMapping("/{rtId}")
     public ResponseEntity<String> saveReview(@PathVariable("rtId") Long rtId,
-                           @RequestPart RestaurantReviewReqDto restaurantReviewReqDto,
-                           @RequestPart(required = false) List<MultipartFile> files){
+                                             @RequestPart RestaurantReviewReqDto restaurantReviewReqDto,
+                                             @RequestPart(required = false) List<MultipartFile> files,
+                                             @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
 
-        Long userId = 1L; /** 나중에 바꿔주기 */
 
-        restaurantReviewService.saveRestaurantReview(rtId, userId, restaurantReviewReqDto, files);
+        restaurantReviewService.saveRestaurantReview(rtId, userInfoFromHeaderDto.getEmail(), restaurantReviewReqDto, files);
 
         return new ResponseEntity<>("success", HttpStatus.OK);
     }
     @PutMapping("/{rtReviewId}")
     public ResponseEntity<String> updateReview(@PathVariable("rtReviewId") Long rtReviewId,
-                           @RequestPart RestaurantReviewReqDto restaurantReviewReqDto,
-                           @RequestPart(required = false) List<MultipartFile> files){
+                                               @RequestPart RestaurantReviewReqDto restaurantReviewReqDto,
+                                               @RequestPart(required = false) List<MultipartFile> files){
 
         restaurantReviewService.updateRestaurantReview(rtReviewId, restaurantReviewReqDto, files);
 

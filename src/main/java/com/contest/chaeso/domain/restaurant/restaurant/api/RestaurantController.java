@@ -6,6 +6,8 @@ import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.menu.Restaura
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantInfoDto;
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantMainInfoListResDto;
 import com.contest.chaeso.domain.restaurant.restaurant.application.RestaurantService;
+import com.contest.chaeso.global.resolver.UserInfoFromHeader;
+import com.contest.chaeso.global.resolver.UserInfoFromHeaderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,9 +33,8 @@ public class RestaurantController {
      * @return
      */
     @GetMapping(value = {"/main", "/main/sort"})
-    public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantList(){
-        /** userId 받아와야 함 */
-        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoList(1L, IMG_FLAG);
+    public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantList(@UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoList(userInfoFromHeaderDto.getEmail(), IMG_FLAG);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
     }
@@ -45,9 +46,9 @@ public class RestaurantController {
      */
     @GetMapping(value = {"/main/mp"})
     public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByMyPosition(@RequestParam("myLon") BigDecimal myLon,
-                                                                                      @RequestParam("myLat") BigDecimal myLat){
-        /** userId 받아와야 함 */
-        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoListByMyPosition(1L, IMG_FLAG, myLon, myLat, RANGE);
+                                                                                      @RequestParam("myLat") BigDecimal myLat,
+                                                                                      @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoListByMyPosition(userInfoFromHeaderDto.getEmail(), IMG_FLAG, myLon, myLat, RANGE);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
     }
@@ -59,8 +60,10 @@ public class RestaurantController {
      * @return
      */
     @GetMapping("/main/{category}")
-    public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategory(@PathVariable("category") String category){
-        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategory(1L, category, IMG_FLAG);
+    public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategory(@PathVariable("category") String category,
+                                                                                     @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+
+        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategory(userInfoFromHeaderDto.getEmail(), category, IMG_FLAG);
 
         return new ResponseEntity<>(mainCategoryResponseDto, HttpStatus.OK);
     }
@@ -73,11 +76,10 @@ public class RestaurantController {
     @GetMapping("/main/{category}/mp")
     public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategoryAndMyPosition(@PathVariable("category") String category,
                                                                                                   @RequestParam("myLon") BigDecimal myLon,
-                                                                                                  @RequestParam("myLat") BigDecimal myLat){
-        BigDecimal myLonTest = new BigDecimal(126.982000); /** 수정해야함 */
-        BigDecimal myLatTest = new BigDecimal(37.56673);
+                                                                                                  @RequestParam("myLat") BigDecimal myLat,
+                                                                                                  @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
 
-        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategoryAndMyPosition(1L, category, IMG_FLAG, myLon, myLat, RANGE);
+        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategoryAndMyPosition(userInfoFromHeaderDto.getEmail(), category, IMG_FLAG, myLon, myLat, RANGE);
 
         return new ResponseEntity<>(mainCategoryResponseDto, HttpStatus.OK);
     }

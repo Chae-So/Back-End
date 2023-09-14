@@ -47,14 +47,17 @@ public class RestaurantReviewService {
 
     }
 
-    public void saveRestaurantReview(Long rtId, Long userId, RestaurantReviewReqDto restaurantReviewReqDto, List<MultipartFile> files) {
+    public void saveRestaurantReview(Long rtId, String email, RestaurantReviewReqDto restaurantReviewReqDto, List<MultipartFile> files) {
         Restaurant restaurant = restaurantRepository.findById(rtId).get();
-        Users user = usersRepository.findById(userId).get();
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
 
         // restaurant review 생성
-        RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(restaurantReviewReqDto, user, restaurant);
+        RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(restaurantReviewReqDto, users, restaurant);
 
         // S3에서 링크 받아와서 넣어주기
+        for (MultipartFile file : files) {
+            
+        }
         RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(0).getOriginalFilename());
         RestaurantReviewImg restaurantReviewImg2 = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(1).getOriginalFilename());
 

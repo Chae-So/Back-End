@@ -2,6 +2,8 @@ package com.contest.chaeso.api.mypage.controller;
 
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantMainInfoListResDto;
 import com.contest.chaeso.domain.restaurant.restaurant.application.RestaurantService;
+import com.contest.chaeso.global.resolver.UserInfoFromHeader;
+import com.contest.chaeso.global.resolver.UserInfoFromHeaderDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -24,9 +26,9 @@ public class MypageController {
      * @return
      */
     @GetMapping("/bookmark")
-    public ResponseEntity<RestaurantMainInfoListResDto> getMyBookmark(){
+    public ResponseEntity<RestaurantMainInfoListResDto> getMyBookmark(@UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
         /** userId 받아와야 함 */
-        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getBookmarkRestaurantList(1L, IMG_FLAG);
+        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getBookmarkRestaurantList(userInfoFromHeaderDto.getEmail(), IMG_FLAG);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
     }

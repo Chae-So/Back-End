@@ -9,8 +9,10 @@ import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.RestaurantMai
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantMainInfoListResDto;
 import com.contest.chaeso.domain.restaurant.restaurant.domain.Restaurant;
 import com.contest.chaeso.domain.restaurant.restaurant.domain.repository.RestaurantRepository;
-import com.contest.chaeso.domain.restaurant.review.img.api.dto.res.RestaurantReviewImgListDto;
+import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantReviewImgListDto;
 import com.contest.chaeso.domain.restaurant.review.review.domain.repository.RestaurantReviewRepository;
+import com.contest.chaeso.domain.users.users.domain.Users;
+import com.contest.chaeso.domain.users.users.domain.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,15 +31,18 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final RestaurantReviewRepository restaurantReviewRepository;
+    private final UsersRepository usersRepository;
 
     /**
      * main restaurant List 가져오기
-     * @param userId
+     * @param email
      * @return
      */
-    public RestaurantMainInfoListResDto getRestaurantMainInfoList(Long userId, int flag){
+    public RestaurantMainInfoListResDto getRestaurantMainInfoList(String email, int flag){
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+
         int today = getToday();
-        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantList(userId, today, flag);
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantList(users.getUserId(), today, flag);
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
 
         return mainResponseDto;
@@ -46,13 +51,14 @@ public class RestaurantService {
 
     /**
      * 현위치 반경 500m main restaurnt List 가져오기
-     * @param userId
+     * @param email
      * @param flag
      * @return
      */
-    public RestaurantMainInfoListResDto getRestaurantMainInfoListByMyPosition(Long userId, int flag, BigDecimal myLon, BigDecimal myLat, int range){
+    public RestaurantMainInfoListResDto getRestaurantMainInfoListByMyPosition(String email, int flag, BigDecimal myLon, BigDecimal myLat, int range){
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
         int today = getToday();
-        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantListByMyPosition(userId, today, flag, myLon, myLat, range);
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantListByMyPosition(users.getUserId(), today, flag, myLon, myLat, range);
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
 
         return mainResponseDto;
@@ -60,14 +66,15 @@ public class RestaurantService {
 
     /**
      * category main restaurant List 가져오기
-     * @param userId
+     * @param email
      * @param category
      * @param flag
      * @return
      */
-    public RestaurantMainInfoListResDto findRestaurantByCategory(Long userId, String category, int flag){
+    public RestaurantMainInfoListResDto findRestaurantByCategory(String email, String category, int flag){
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
         int today = getToday();
-        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategory(userId, today, category,flag);
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategory(users.getUserId(), today, category,flag);
 
 
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
@@ -77,14 +84,16 @@ public class RestaurantService {
 
     /**
      * 현위치 반경 500m category main restaurant List 가져오기
-     * @param userId
+     * @param email
      * @param category
      * @param flag
      * @return
      */
-    public RestaurantMainInfoListResDto findRestaurantByCategoryAndMyPosition(Long userId, String category, int flag, BigDecimal myLon, BigDecimal myLat, int range){
+    public RestaurantMainInfoListResDto findRestaurantByCategoryAndMyPosition(String email, String category, int flag, BigDecimal myLon, BigDecimal myLat, int range){
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+
         int today = getToday();
-        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategoryAndMyPosition(userId, today, category,flag, myLon, myLat, range);
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategoryAndMyPosition(users.getUserId(), today, category,flag, myLon, myLat, range);
 
 
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
@@ -129,9 +138,11 @@ public class RestaurantService {
      * mypage 나의 북마크 레스토랑 리스트
      * @return
      */
-    public RestaurantMainInfoListResDto getBookmarkRestaurantList(Long userId, int flag){
+    public RestaurantMainInfoListResDto getBookmarkRestaurantList(String email, int flag){
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
         int today = getToday();
-        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findMyBookmarkRestaurantList(userId, today, flag);
+
+        List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findMyBookmarkRestaurantList(users.getUserId(), today, flag);
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
 
         return mainResponseDto;

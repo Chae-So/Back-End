@@ -1,6 +1,5 @@
 package com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info;
 
-import com.contest.chaeso.domain.restaurant.review.img.api.dto.res.RestaurantReviewImgListDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

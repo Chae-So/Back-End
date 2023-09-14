@@ -1,4 +1,4 @@
-package com.contest.chaeso.domain.restaurant.review.img.api.dto.res;
+package com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info;
 
 import lombok.AccessLevel;
 import lombok.Getter;
