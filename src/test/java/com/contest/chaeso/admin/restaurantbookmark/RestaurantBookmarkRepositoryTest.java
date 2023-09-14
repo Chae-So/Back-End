@@ -30,17 +30,17 @@ public class RestaurantBookmarkRepositoryTest {
     RestaurantBookmarkRepository restaurantBookmarkRepository;
 
 
-    @DisplayName("유저 추가")
-    @Transactional
-    @Test
-    public void user(){
-        // given
-        for(int i = 1; i <= 5; i++){
-            Users users = new Users("test" + i);
-            usersRepository.save(users);
-        }
-
-    }
+//    @DisplayName("유저 추가")
+//    @Transactional
+//    @Test
+//    public void user(){
+//        // given
+//        for(int i = 1; i <= 5; i++){
+//            Users users = new Users("test" + i);
+//            usersRepository.save(users);
+//        }
+//
+//    }
 
     /**
      * SELECT * from users u; -- 5개

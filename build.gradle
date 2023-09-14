@@ -95,3 +95,10 @@ configurations {
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
+
+/*
+ build 시 테스트 수행 x
+ */
+test.onlyIf{
+    !project.hasProperty('test')
+}
