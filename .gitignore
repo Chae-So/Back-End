@@ -1,11 +1,11 @@
 ## yml
 src/main/resources/application-db.yml
 src/main/resources/application-oauth.yml
-
+src/main/resources/application-cloud.yml
 src/main/resources/application-jwt.yml
-src/test/resources/application.yml
 
-src/test/resources/application-real.yml
+
+src/test/resources/application.yml
 
 
 src/main/java/com/contest/chaeso/test/

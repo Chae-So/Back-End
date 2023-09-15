@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
 
@@ -80,7 +81,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             " from Restaurant r" +
             " join fetch r.restaurantBzhList" +
             " where r.rtId = :rtId")
-    public Restaurant findRestaurantBzhByRtId(@Param("rtId") Long rtId);
+    public Optional<Restaurant> findRestaurantBzhByRtId(@Param("rtId") Long rtId);
 
 
     // 메뉴들 가져오기(menu)
@@ -88,7 +89,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             " from Restaurant r" +
             " join fetch r.restaurantMenuList rm" +
             " where r.rtId = :rtId")
-    public Restaurant findRestaurantMenuByRtId(@Param("rtId") Long rtId);
+    public Optional<Restaurant> findRestaurantMenuByRtId(@Param("rtId") Long rtId);
 
 
     // 레스토랑 메인 이미지

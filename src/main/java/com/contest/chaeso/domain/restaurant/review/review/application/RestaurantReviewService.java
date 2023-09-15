@@ -12,6 +12,8 @@ import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantRevie
 import com.contest.chaeso.domain.restaurant.review.review.domain.repository.RestaurantReviewRepository;
 import com.contest.chaeso.domain.users.users.domain.Users;
 import com.contest.chaeso.domain.users.users.domain.repository.UsersRepository;
+import com.contest.chaeso.global.exception.CustomException;
+import com.contest.chaeso.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -48,15 +50,15 @@ public class RestaurantReviewService {
     }
 
     public void saveRestaurantReview(Long rtId, String email, RestaurantReviewReqDto restaurantReviewReqDto, List<MultipartFile> files) {
-        Restaurant restaurant = restaurantRepository.findById(rtId).get();
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Restaurant restaurant = restaurantRepository.findById(rtId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         // restaurant review 생성
         RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(restaurantReviewReqDto, users, restaurant);
 
         // S3에서 링크 받아와서 넣어주기
         for (MultipartFile file : files) {
-            
+
         }
         RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(0).getOriginalFilename());
         RestaurantReviewImg restaurantReviewImg2 = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(1).getOriginalFilename());
@@ -72,7 +74,7 @@ public class RestaurantReviewService {
     }
 
     public void updateRestaurantReview(Long rtReviewId, RestaurantReviewReqDto restaurantReviewReqDto, List<MultipartFile> files) {
-        RestaurantReview restaurantReview = restaurantReviewRepository.findById(rtReviewId).get();
+        RestaurantReview restaurantReview = restaurantReviewRepository.findById(rtReviewId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT_REVIEW));
 
         // S3에서 삭제 후 다시 저장하고 링크 받아와서 넣어주기
         RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(0).getOriginalFilename());

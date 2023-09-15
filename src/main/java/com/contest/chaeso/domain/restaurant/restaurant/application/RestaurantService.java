@@ -13,6 +13,8 @@ import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.Restaura
 import com.contest.chaeso.domain.restaurant.review.review.domain.repository.RestaurantReviewRepository;
 import com.contest.chaeso.domain.users.users.domain.Users;
 import com.contest.chaeso.domain.users.users.domain.repository.UsersRepository;
+import com.contest.chaeso.global.exception.CustomException;
+import com.contest.chaeso.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,7 +41,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMainInfoListResDto getRestaurantMainInfoList(String email, int flag){
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         int today = getToday();
         List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantList(users.getUserId(), today, flag);
@@ -56,7 +58,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMainInfoListResDto getRestaurantMainInfoListByMyPosition(String email, int flag, BigDecimal myLon, BigDecimal myLat, int range){
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
         int today = getToday();
         List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantListByMyPosition(users.getUserId(), today, flag, myLon, myLat, range);
         RestaurantMainInfoListResDto mainResponseDto = new RestaurantMainInfoListResDto(restaurantInfo);
@@ -72,7 +74,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMainInfoListResDto findRestaurantByCategory(String email, String category, int flag){
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
         int today = getToday();
         List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategory(users.getUserId(), today, category,flag);
 
@@ -90,7 +92,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMainInfoListResDto findRestaurantByCategoryAndMyPosition(String email, String category, int flag, BigDecimal myLon, BigDecimal myLat, int range){
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
 
         int today = getToday();
         List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findRestaurantByCategoryAndMyPosition(users.getUserId(), today, category,flag, myLon, myLat, range);
@@ -109,7 +111,7 @@ public class RestaurantService {
      */
     public RestaurantInfoResDto findRestaurantInfo(Long rtId){
         // restaurant menu
-        Restaurant restaurant = restaurantRepository.findRestaurantBzhByRtId(rtId);
+        Restaurant restaurant = restaurantRepository.findRestaurantBzhByRtId(rtId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT));;
         RestaurantInfoDto restaurantInfoResDto = new RestaurantInfoDto(restaurant);
 
         // restaurant images
@@ -126,7 +128,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMenuResListDto findRestaurantMenuByRestaurant(Long rtId){
-        Restaurant restaurantMenuByRestaurant = restaurantRepository.findRestaurantMenuByRtId(rtId);
+        Restaurant restaurantMenuByRestaurant = restaurantRepository.findRestaurantMenuByRtId(rtId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT));;
         List<RestaurantMenuInfoDto> collect = restaurantMenuByRestaurant.getRestaurantMenuList().stream().map(RestaurantMenuInfoDto::new).collect(Collectors.toList());
         RestaurantMenuResListDto restaurantMenuResListDto = new RestaurantMenuResListDto(collect);
 
@@ -139,7 +141,7 @@ public class RestaurantService {
      * @return
      */
     public RestaurantMainInfoListResDto getBookmarkRestaurantList(String email, int flag){
-        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("email 존재하지 않습니다."));
+        Users users = usersRepository.findByEmail(email).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_USER));
         int today = getToday();
 
         List<RestaurantMainInfoResInterface> restaurantInfo = restaurantRepository.findMyBookmarkRestaurantList(users.getUserId(), today, flag);
@@ -156,9 +158,6 @@ public class RestaurantService {
         return now.getDayOfWeek().getValue();
     }
 
-    private void haveRestaurntMainImg(){
-
-    }
 
 }
 

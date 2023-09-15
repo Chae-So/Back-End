@@ -10,6 +10,8 @@ import com.contest.chaeso.domain.restaurant.review.review.api.dto.req.Restaurant
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
 import com.contest.chaeso.domain.users.users.domain.Users;
 import com.contest.chaeso.domain.users.users.domain.repository.UsersRepository;
+import com.contest.chaeso.global.exception.CustomException;
+import com.contest.chaeso.global.exception.ErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +57,7 @@ public class RestaurantRepositoryTest {
         Long rtId = 4L;
 
         // when
-        Restaurant restaurant = restaurantRepository.findRestaurantBzhByRtId(rtId);
+        Restaurant restaurant = restaurantRepository.findRestaurantBzhByRtId(rtId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT));;
 
         // then
         List<RestaurantBzh> restaurantBzhList = restaurant.getRestaurantBzhList();
