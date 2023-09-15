@@ -47,4 +47,17 @@ public class AmazonS3Service {
 
     }
 
+    public String updateFile(){
+
+        return null;
+    }
+
+
+    public String deleteFile(){
+
+        return null;
+    }
+
+
+
 }
