@@ -129,8 +129,8 @@ public class RestaurantService {
      */
     public RestaurantMenuResListDto findRestaurantMenuByRestaurant(Long rtId){
         Restaurant restaurantMenuByRestaurant = restaurantRepository.findRestaurantMenuByRtId(rtId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT));;
-        List<RestaurantMenuInfoDto> collect = restaurantMenuByRestaurant.getRestaurantMenuList().stream().map(RestaurantMenuInfoDto::new).collect(Collectors.toList());
-        RestaurantMenuResListDto restaurantMenuResListDto = new RestaurantMenuResListDto(collect);
+        List<RestaurantMenuInfoDto> restaurantMenuInfoDtos = restaurantMenuByRestaurant.getRestaurantMenuList().stream().map(RestaurantMenuInfoDto::new).collect(Collectors.toList());
+        RestaurantMenuResListDto restaurantMenuResListDto = new RestaurantMenuResListDto(restaurantMenuInfoDtos);
 
         return restaurantMenuResListDto;
 

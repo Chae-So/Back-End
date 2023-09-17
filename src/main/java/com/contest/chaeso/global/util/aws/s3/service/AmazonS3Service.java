@@ -1,5 +1,6 @@
 package com.contest.chaeso.global.util.aws.s3.service;
 
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.contest.chaeso.global.exception.CustomException;
@@ -27,9 +28,39 @@ public class AmazonS3Service {
 
     public String uploadFile(MultipartFile file){
 
+        return upload(file);
+
+    }
+
+
+    public String updateFile(){
+        
+//        db에서 review id에 해당하는 url 가져와서 삭제
+//        다시 upload 후 delete 하기
+//                
+
+        return null;
+    }
+
+
+    public void deleteFile(String fileUrl){
+        delete(fileUrl);
+
+    }
+
+    private void delete(String fileUrl) {
+        try {
+            amazonS3Client.deleteObject(bucket, fileUrl);
+        } catch (SdkClientException e) {
+            throw new CustomException(ErrorCode.S3_FILE_UPLOAD);
+        }
+    }
+
+
+    private String upload(MultipartFile file) {
         String fileUrl = "None";
         try {
-            String fileName = "chicken/" + file.getOriginalFilename();
+            String fileName = "chaeso/" + file.getOriginalFilename();
             fileUrl= "https://" + bucket + ".s3." + region + ".amazonaws.com/" + fileName;
             ObjectMetadata metadata= new ObjectMetadata();
 
@@ -44,20 +75,7 @@ public class AmazonS3Service {
             log.info("[error] : " + e.getMessage());
             throw new CustomException(ErrorCode.S3_FILE_UPLOAD);
         }
-
     }
-
-    public String updateFile(){
-
-        return null;
-    }
-
-
-    public String deleteFile(){
-
-        return null;
-    }
-
 
 
 }

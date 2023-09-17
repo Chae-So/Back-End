@@ -5,6 +5,7 @@ import com.contest.chaeso.domain.restaurant.restaurant.domain.repository.Restaur
 import com.contest.chaeso.domain.restaurant.review.img.domain.RestaurantReviewImg;
 import com.contest.chaeso.domain.restaurant.review.img.domain.repository.RestaurantReviewImgRepository;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.req.RestaurantReviewReqDto;
+import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewImgDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewListResDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantReviewDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantScoreCountInterface;
@@ -14,6 +15,7 @@ import com.contest.chaeso.domain.users.users.domain.Users;
 import com.contest.chaeso.domain.users.users.domain.repository.UsersRepository;
 import com.contest.chaeso.global.exception.CustomException;
 import com.contest.chaeso.global.exception.ErrorCode;
+import com.contest.chaeso.global.util.aws.s3.service.AmazonS3Service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -34,6 +36,7 @@ public class RestaurantReviewService {
     private final RestaurantRepository restaurantRepository;
     private final UsersRepository usersRepository;
     private final RestaurantReviewImgRepository restaurantReviewImgRepository;
+    private final AmazonS3Service amazonS3Service;
 
 
     public RestaurantReviewListResDto getRestaurantReviewList(Long rtId){
@@ -56,39 +59,39 @@ public class RestaurantReviewService {
         // restaurant review 생성
         RestaurantReview restaurantReview = RestaurantReview.createRestaurantReview(restaurantReviewReqDto, users, restaurant);
 
-        // S3에서 링크 받아와서 넣어주기
+        // S3에서 링크 받아와서 db 넣어주에
         for (MultipartFile file : files) {
-
+            String fileUrl = amazonS3Service.uploadFile(file);
+            RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(fileUrl);
+            restaurantReview.addRestaurantReviewImg(restaurantReviewImg);
         }
-        RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(0).getOriginalFilename());
-        RestaurantReviewImg restaurantReviewImg2 = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(1).getOriginalFilename());
-
-        // review img 추가
-        restaurantReview.addRestaurantReviewImg(restaurantReviewImg);
-        restaurantReview.addRestaurantReviewImg(restaurantReviewImg2);
 
         // 저장
         restaurantReviewRepository.save(restaurantReview);
-
 
     }
 
     public void updateRestaurantReview(Long rtReviewId, RestaurantReviewReqDto restaurantReviewReqDto, List<MultipartFile> files) {
         RestaurantReview restaurantReview = restaurantReviewRepository.findById(rtReviewId).orElseThrow(() -> new CustomException(ErrorCode.NOT_FOUND_RESTAURANT_REVIEW));
 
-        // S3에서 삭제 후 다시 저장하고 링크 받아와서 넣어주기
-        RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(0).getOriginalFilename());
-        RestaurantReviewImg restaurantReviewImg2 = RestaurantReviewImg.createRestaurantReviewImgWithCascade(files.get(1).getOriginalFilename());
+        // db에서 가져오고 s3에서 삭제
+        List<RestaurantReviewImgDto> imgLinkList = restaurantReviewImgRepository.findRestaurantReviewImgByRtReviewId(restaurantReview.getRtReviewId());
+        for (RestaurantReviewImgDto restaurantReviewImgDto : imgLinkList) {
+            amazonS3Service.deleteFile(restaurantReviewImgDto.getRtReviewImgLink());
 
-        // list를 s3에서 받아오면 updateReview에 imgList 넣어줄 필요 없음
-        List<RestaurantReviewImg> restaurantReviewImgList = new ArrayList<>();
-        restaurantReviewImgList.add(restaurantReviewImg);
-        restaurantReviewImgList.add(restaurantReviewImg2);
+        }
 
-        // db에서도 삭제하고 다시 넣어주기
+        // db에서도 삭제
         restaurantReviewImgRepository.deleteByRestaurantReview(rtReviewId);
 
-        restaurantReview.updateReview(restaurantReviewReqDto, restaurantReviewImgList);
+        // s3에 다시 저장하고 링크 받아와서 db에 넣어주기
+        for (MultipartFile file : files) {
+            String fileUrl = amazonS3Service.uploadFile(file);
+            RestaurantReviewImg restaurantReviewImg = RestaurantReviewImg.createRestaurantReviewImgWithCascade(fileUrl);
+            restaurantReview.addRestaurantReviewImg(restaurantReviewImg);
+        }
+
+        restaurantReview.updateReview(restaurantReviewReqDto);
 
     }
 

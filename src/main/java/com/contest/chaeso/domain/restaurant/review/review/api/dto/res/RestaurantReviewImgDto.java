@@ -14,4 +14,8 @@ public class RestaurantReviewImgDto {
     public RestaurantReviewImgDto(RestaurantReviewImg restaurantReviewImg) {
         this.rtReviewImgLink = restaurantReviewImg.getRtReviewImgLink();
     }
+
+    public RestaurantReviewImgDto(String rtReviewImgLink) {
+        this.rtReviewImgLink = rtReviewImgLink;
+    }
 }

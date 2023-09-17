@@ -99,16 +99,12 @@ public class RestaurantReview extends BaseTimeEntity {
         this.nonVeganFood = nonVeganFood;
     }
 
-    public void updateReview(RestaurantReviewReqDto restaurantReviewReqDto, List<RestaurantReviewImg> files){
+    public void updateReview(RestaurantReviewReqDto restaurantReviewReqDto){
         this.contents = restaurantReviewReqDto.getContents();
         this.score = restaurantReviewReqDto.getScore();
         this.company = restaurantReviewReqDto.getCompany();
         this.companyVeganType = restaurantReviewReqDto.getCompanyVeganType();
         this.nonVeganFood = restaurantReviewReqDto.getNonVeganFood();
-
-        for (RestaurantReviewImg file : files) {
-            this.addRestaurantReviewImg(file);
-        }
 
     }
 
