@@ -6,6 +6,8 @@ import com.contest.chaeso.domain.community.community.domain.Community;
 import com.contest.chaeso.domain.community.community.domain.repository.CommunityQueryRepository;
 import com.contest.chaeso.domain.community.community.domain.repository.CommunityRepository;
 import com.contest.chaeso.domain.community.img.api.dto.req.RequestCommunityImgDto;
+import com.contest.chaeso.domain.community.img.api.dto.res.ResponseCommunityImgDto;
+import com.contest.chaeso.domain.community.img.domain.CommunityImg;
 import com.contest.chaeso.domain.community.img.domain.repository.CommunityImgRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
