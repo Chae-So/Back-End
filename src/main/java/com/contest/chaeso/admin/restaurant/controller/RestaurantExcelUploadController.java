@@ -4,6 +4,9 @@ package com.contest.chaeso.admin.restaurant.controller;
 import com.contest.chaeso.admin.restaurant.application.RestaurantExcelUploadService;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantExcelDto;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantMenuExcelDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
@@ -31,6 +34,12 @@ public class RestaurantExcelUploadController {
     private final RestaurantExcelUploadService excelUploadService;
 
 
+    @ApiOperation(value = "레스토랑 관련 엑셀 업로드 api", notes = "레스토랑 관련 엑셀 업로드를 수행한다")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "엑셀 업로드 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @PostMapping("/rt/excel/upload")
     public ResponseEntity<String> restaurantExcelUpload(@RequestPart("file") MultipartFile file) throws IOException {
 

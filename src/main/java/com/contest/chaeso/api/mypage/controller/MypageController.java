@@ -4,6 +4,9 @@ import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.Restaura
 import com.contest.chaeso.domain.restaurant.restaurant.application.RestaurantService;
 import com.contest.chaeso.global.resolver.UserInfoFromHeader;
 import com.contest.chaeso.global.resolver.UserInfoFromHeaderDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,6 +28,12 @@ public class MypageController {
      * bookmark restaurant list
      * @return
      */
+    @ApiOperation(value = "마이페이지 레스토랑 북마크 리스트 조회 api", notes = "마이페이지 레스토랑 북마크 리스트를 조회한다")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "북마크 리스트 조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/bookmark")
     public ResponseEntity<RestaurantMainInfoListResDto> getMyBookmark(@UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
         /** userId 받아와야 함 */

@@ -1,6 +1,6 @@
 package com.contest.chaeso.admin.restaurant.application;
 
-import com.contest.chaeso.admin.restaurant.controller.BzhDayEnum;
+import com.contest.chaeso.admin.restaurant.global.BzhDayEnum;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantExcelDto;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantMenuExcelDto;
 import com.contest.chaeso.domain.restaurant.bzhour.domain.RestaurantBzh;
