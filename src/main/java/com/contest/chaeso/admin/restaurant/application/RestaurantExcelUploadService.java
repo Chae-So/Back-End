@@ -1,6 +1,6 @@
 package com.contest.chaeso.admin.restaurant.application;
 
-import com.contest.chaeso.admin.restaurant.controller.BzhDayEnum;
+import com.contest.chaeso.admin.restaurant.global.BzhDayEnum;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantExcelDto;
 import com.contest.chaeso.admin.restaurant.controller.dto.RestaurantMenuExcelDto;
 import com.contest.chaeso.domain.restaurant.bzhour.domain.RestaurantBzh;
@@ -75,10 +75,14 @@ public class RestaurantExcelUploadService {
 
     private void addRestaurantBzh(String[] bzhArr, Restaurant restaurant){
 
+        if (bzhArr[0].equals("정보없음")) {
+            return;
+        }
+
         for (String bzh : bzhArr) {
             String[] line = bzh.split(" ");
-            String day = line[0];
-            String start = line[1];
+            String day = line[0].strip();
+            String start = line[1].strip();
 
             Integer days = null;
             LocalTime startTime = null;
@@ -109,14 +113,27 @@ public class RestaurantExcelUploadService {
 
             }
 
+
             if (!start.equals("정기휴무")) {
-                String end = line[2];
+                String end = line[2].strip();
                 startTime = LocalTime.parse(start);
-                endTime = LocalTime.parse(end);
+                if (end.equals("소진시까지")) {
+                    endTime = null;
+
+                }
+                else{
+                    try {
+                        endTime = LocalTime.parse(end);
+                    } catch (Exception e) {
+                        log.info("================" + restaurant.getName());
+                        throw e;
+
+                    }
+
+                }
             }
 
             RestaurantBzh restaurantBzhWithCascade = RestaurantBzh.createRestaurantBzhWithCascade(days, startTime, endTime, null, null);
-
             restaurant.addRestaurantBzh(restaurantBzhWithCascade);
         }
     }

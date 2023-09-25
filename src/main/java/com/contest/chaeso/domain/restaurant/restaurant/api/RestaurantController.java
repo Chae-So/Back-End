@@ -6,6 +6,11 @@ import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.menu.Restaura
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantInfoDto;
 import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantMainInfoListResDto;
 import com.contest.chaeso.domain.restaurant.restaurant.application.RestaurantService;
+import com.contest.chaeso.global.resolver.UserInfoFromHeader;
+import com.contest.chaeso.global.resolver.UserInfoFromHeaderDto;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -25,72 +30,74 @@ public class RestaurantController {
     private final static int IMG_FLAG = 1;
     private final static int RANGE = 500;
 
-    /**
-     * restaurnt list get api
-     * 평균점수 순으로 정렬(default)
-     * @return
-     */
+    @ApiOperation(value = "모든 레스토랑 리스트 조회 api", notes = "모든 레스토랑 리스트를 조회한다. 평점 내림차순 정렬")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping(value = {"/main", "/main/sort"})
-    public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantList(){
-        /** userId 받아와야 함 */
-        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoList(1L, IMG_FLAG);
+    public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantList(@UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoList(userInfoFromHeaderDto.getEmail(), IMG_FLAG);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
     }
 
-    /**
-     * 현위치 기반 restaurnt list get api
-     * 평균점수로
-     * @return
-     */
+    @ApiOperation(value = "현위치 가반 500m 내 레스토랑 리스트 조회 api", notes = "현위치 기반 500m 내 레스토랑 리스트를 조회한다. 평점 내림차순 정렬")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping(value = {"/main/mp"})
     public ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByMyPosition(@RequestParam("myLon") BigDecimal myLon,
-                                                                                      @RequestParam("myLat") BigDecimal myLat){
-        /** userId 받아와야 함 */
-        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoListByMyPosition(1L, IMG_FLAG, myLon, myLat, RANGE);
+                                                                                      @RequestParam("myLat") BigDecimal myLat,
+                                                                                      @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+        RestaurantMainInfoListResDto mainResponseDto = restaurantService.getRestaurantMainInfoListByMyPosition(userInfoFromHeaderDto.getEmail(), IMG_FLAG, myLon, myLat, RANGE);
 
         return new ResponseEntity<>(mainResponseDto, HttpStatus.OK);
     }
 
 
-    /**
-     * category에 따른 restaurant list get api
-     * @param category
-     * @return
-     */
+    @ApiOperation(value = "카테고리별 레스토랑 리스트 조회 api", notes = "카테고리별 레스토랑 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/main/{category}")
-    public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategory(@PathVariable("category") String category){
-        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategory(1L, category, IMG_FLAG);
+    public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategory(@PathVariable("category") String category,
+                                                                                     @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
+
+        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategory(userInfoFromHeaderDto.getEmail(), category, IMG_FLAG);
 
         return new ResponseEntity<>(mainCategoryResponseDto, HttpStatus.OK);
     }
 
-    /**
-     * 현위치 기반 category에 따른 restaurant list get api
-     * @param category
-     * @return
-     */
+    @ApiOperation(value = "카테고리별 현위치 가반 500m 내 레스토랑 리스트 조회 api", notes = "카테고리별 현위치 가반 500m 내 레스토랑 리스트를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/main/{category}/mp")
     public  ResponseEntity<RestaurantMainInfoListResDto> getRestaurantListByCategoryAndMyPosition(@PathVariable("category") String category,
                                                                                                   @RequestParam("myLon") BigDecimal myLon,
-                                                                                                  @RequestParam("myLat") BigDecimal myLat){
-        BigDecimal myLonTest = new BigDecimal(126.982000); /** 수정해야함 */
-        BigDecimal myLatTest = new BigDecimal(37.56673);
+                                                                                                  @RequestParam("myLat") BigDecimal myLat,
+                                                                                                  @UserInfoFromHeader UserInfoFromHeaderDto userInfoFromHeaderDto){
 
-        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategoryAndMyPosition(1L, category, IMG_FLAG, myLon, myLat, RANGE);
+        RestaurantMainInfoListResDto mainCategoryResponseDto = restaurantService.findRestaurantByCategoryAndMyPosition(userInfoFromHeaderDto.getEmail(), category, IMG_FLAG, myLon, myLat, RANGE);
 
         return new ResponseEntity<>(mainCategoryResponseDto, HttpStatus.OK);
     }
 
-    /**
-     * restaurnt info(bzh) get api
-     * @param rtId
-     * @return
-     */
+    @ApiOperation(value = "레스토랑 정보 조회 api", notes = "레스토랑 정보를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/{rtId}/info")
-    /**
-     * 여기에 레스토랑 사진이랑 review 사진들 퍼오기
-     */
     public ResponseEntity<RestaurantInfoResDto> getRestaurantInfo(@PathVariable(name = "rtId") Long rtId) {
 
         RestaurantInfoResDto restaurantInfoByRtId = restaurantService.findRestaurantInfo(rtId);
@@ -98,11 +105,12 @@ public class RestaurantController {
         return new ResponseEntity<>(restaurantInfoByRtId, HttpStatus.OK);
     }
 
-    /**
-     * restaurant menu get api
-     * @param rtId
-     * @return
-     */
+    @ApiOperation(value = "레스토랑 메뉴 조회 api", notes = "레스토랑 메뉴를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "조회 성공"),
+            @ApiResponse(responseCode = "400", description = "잘못된 파라미터"),
+            @ApiResponse(responseCode = "500", description = "서버 에러")
+    })
     @GetMapping("/{rtId}/menu")
     public ResponseEntity<RestaurantMenuResListDto> getRestaurantMenuInfo(@PathVariable(name = "rtId") Long rtId){
 

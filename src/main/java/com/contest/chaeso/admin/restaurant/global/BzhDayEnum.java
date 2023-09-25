@@ -1,4 +1,4 @@
-package com.contest.chaeso.admin.restaurant.controller;
+package com.contest.chaeso.admin.restaurant.global;
 
 public enum BzhDayEnum {
     MONDAY(1),

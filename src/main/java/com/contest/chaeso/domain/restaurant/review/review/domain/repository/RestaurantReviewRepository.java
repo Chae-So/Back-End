@@ -1,6 +1,6 @@
 package com.contest.chaeso.domain.restaurant.review.review.domain.repository;
 
-import com.contest.chaeso.domain.restaurant.review.img.api.dto.res.RestaurantReviewImgListDto;
+import com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantReviewImgListDto;
 import com.contest.chaeso.domain.restaurant.review.review.api.dto.res.RestaurantScoreCountInterface;
 import com.contest.chaeso.domain.restaurant.review.review.domain.RestaurantReview;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -38,7 +38,7 @@ public interface RestaurantReviewRepository extends JpaRepository<RestaurantRevi
     public List<RestaurantReview> findRestaurantReviewByImgByRestaurant();
 
 
-    @Query("select new com.contest.chaeso.domain.restaurant.review.img.api.dto.res.RestaurantReviewImgListDto(rri.rtReviewImgLink)" +
+    @Query("select new com.contest.chaeso.domain.restaurant.restaurant.api.dto.res.info.RestaurantReviewImgListDto(rri.rtReviewImgLink)" +
             " from RestaurantReview rr" +
             " join rr.restaurantReviewImgList rri" +
             " where rr.restaurant.rtId = :rtId")

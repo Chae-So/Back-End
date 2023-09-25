@@ -4,8 +4,7 @@ spring:
       matching-strategy: ant_path_matcher # swagger 에러 해결
   profiles:
     include:
-      - real
       - db
       - oauth
       - jwt
-      - develop
+      - cloud
