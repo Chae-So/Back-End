@@ -20,17 +20,18 @@ public class RestaurantImg {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rt_img_id")
     private Long rtBMarkId;
-    @NotNull
     @Column(length = 512)
     private String rtImgLink;
+    private int flag;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rt_id")
     private Restaurant restaurant;
 
     @Builder
-    private RestaurantImg(String rtImgLink, Restaurant restaurant) {
+    private RestaurantImg(String rtImgLink, int flag, Restaurant restaurant) {
         this.rtImgLink = rtImgLink;
+        this.flag = flag;
         this.restaurant = restaurant;
     }
 
@@ -40,9 +41,10 @@ public class RestaurantImg {
      * @param restaurant
      * @return
      */
-    public static RestaurantImg createRestaurantImg(String rtImgLink, Restaurant restaurant) {
+    public static RestaurantImg createRestaurantImg(String rtImgLink, int flag, Restaurant restaurant) {
         return RestaurantImg.builder()
                 .rtImgLink(rtImgLink)
+                .flag(flag)
                 .restaurant(restaurant)
                 .build();
     }
@@ -52,9 +54,10 @@ public class RestaurantImg {
      * @param rtImgLink
      * @return
      */
-    public static RestaurantImg createRestaurantImgWithCascade(String rtImgLink) {
+    public static RestaurantImg createRestaurantImgWithCascade(String rtImgLink, int flag) {
         return RestaurantImg.builder()
                 .rtImgLink(rtImgLink)
+                .flag(flag)
                 .build();
     }
 

@@ -25,14 +25,19 @@ public class RestaurantMenu {
     @NotNull
     private int price;
 
+    @Column(length = 512)
+    private String menuImgLink;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "rt_id")
     private Restaurant restaurant;
 
+
     @Builder
-    private RestaurantMenu(String menuName, int price, Restaurant restaurant) {
+    private RestaurantMenu(String menuName, int price, String menuImgLink, Restaurant restaurant) {
         this.menuName = menuName;
         this.price = price;
+        this.menuImgLink = menuImgLink;
         this.restaurant = restaurant;
     }
 
@@ -43,10 +48,11 @@ public class RestaurantMenu {
      * @param restaurant
      * @return
      */
-    public static RestaurantMenu createRestaurantMenu(String menuName, int price, Restaurant restaurant){
+    public static RestaurantMenu createRestaurantMenu(String menuName, int price, String menuImgLink, Restaurant restaurant){
         return RestaurantMenu.builder()
                 .menuName(menuName)
                 .price(price)
+                .menuImgLink(menuImgLink)
                 .restaurant(restaurant)
                 .build();
 
@@ -58,10 +64,11 @@ public class RestaurantMenu {
      * @param price
      * @return
      */
-    public static RestaurantMenu createRestaurantMenuWithCascade(String menuName, int price){
+    public static RestaurantMenu createRestaurantMenuWithCascade(String menuName, int price, String menuImgLink){
         return RestaurantMenu.builder()
                 .menuName(menuName)
                 .price(price)
+                .menuImgLink(menuImgLink)
                 .build();
 
     }
@@ -69,6 +76,7 @@ public class RestaurantMenu {
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
     }
+
 
 
 }

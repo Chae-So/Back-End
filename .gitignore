@@ -1,9 +1,15 @@
 ## yml
 src/main/resources/application-db.yml
 src/main/resources/application-oauth.yml
+
 src/main/resources/application-jwt.yml
+
+src/main/resources/application-cloud.yml
+
 src/test/resources/application.yml
 
+
+src/main/java/com/contest/chaeso/test/
 
 HELP.md
 .gradle
