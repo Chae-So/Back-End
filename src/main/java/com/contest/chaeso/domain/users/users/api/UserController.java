@@ -12,22 +12,5 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/enter")
 public class UserController {
 
-    private final UserService userService;
 
-    @PostMapping("/sign-up")
-    public ResponseEntity signUp(@RequestBody RequestUserSignUpDto userSignUpDto) throws Exception {
-        userService.signUp(userSignUpDto);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/duplicate-check")
-    public ResponseEntity CheckForDuplicateNickname(String nickname) {
-        userService.CheckForDuplicateNickname(nickname);
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/jwt-test")
-    public String jwtTest() {
-        return "jwtTest 요청 성공";
-    }
 }

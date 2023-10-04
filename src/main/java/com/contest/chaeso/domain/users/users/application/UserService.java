@@ -1,5 +1,6 @@
 package com.contest.chaeso.domain.users.users.application;
 
+import com.contest.chaeso.domain.users.language.api.dto.res.ResponseOAuthUserInfoDto;
 import com.contest.chaeso.domain.users.language.domain.LanguageInfo;
 import com.contest.chaeso.domain.users.language.domain.repository.LanguageRepository;
 import com.contest.chaeso.domain.users.users.api.dto.req.RequestUserSignUpDto;
@@ -10,6 +11,8 @@ import com.contest.chaeso.domain.users.vegan.domain.VeganInfo;
 import com.contest.chaeso.domain.users.vegan.domain.repository.VeganInfoRepository;
 import com.contest.chaeso.global.exception.CustomException;
 import com.contest.chaeso.global.exception.ErrorCode;
+import com.contest.chaeso.global.oauth2.userinfo.GoogleSocialLogin;
+import com.contest.chaeso.global.oauth2.userinfo.KakaoSocialLogin;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,6 +28,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final LanguageRepository languageRepository;
     private final VeganInfoRepository veganInfoRepository;
+    private final GoogleSocialLogin googleSocialLogin;
+    private final KakaoSocialLogin kakaoSocialLogin;
 
     @Transactional
     public void signUp(RequestUserSignUpDto userSignUpDto) throws Exception {
@@ -59,5 +64,14 @@ public class UserService {
         usersRepository.findUsersByNickname(nickname).ifPresent(user -> {
             throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
         });
+    }
+
+    public ResponseOAuthUserInfoDto socialUserInfo(String socialType, String code) {
+        if (socialType.equals("google")) {
+            return googleSocialLogin.getUserInfo(code);
+        } else if (socialType.equals("kakao")) {
+            return kakaoSocialLogin.getUserInfo(code);
+        }
+        return null;
     }
 }

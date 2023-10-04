@@ -52,6 +52,7 @@ public class Users extends BaseTimeEntity {
 
     private String socialId; //소셜 타입 식별자 값(일반 로그인일시 null)
 
+    private String accessToken;
     private String refreshToken; //리프레시 토큰
 
     //유저 권한 설정 메서드
@@ -64,8 +65,9 @@ public class Users extends BaseTimeEntity {
         this.pw = passwordEncoder.encode(this.pw);
     }
 
-    public void updateRefreshToken(String updateRefreshToken) {
+    public void updateRefreshToken(String updateRefreshToken, String updateAccessToken) {
         this.refreshToken = updateRefreshToken;
+        this.accessToken = updateAccessToken;
     }
 
 

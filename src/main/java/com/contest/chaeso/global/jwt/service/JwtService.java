@@ -155,10 +155,10 @@ public class JwtService {
     /**
      * RefreshToken DB 저장(업데이트)
      */
-    public void updateRefreshToken(String email, String refreshToken) {
+    public void updateRefreshToken(String email, String refreshToken, String accessToken) {
         usersRepository.findByEmail(email)
                 .ifPresentOrElse(
-                        user -> user.updateRefreshToken(refreshToken),
+                        user -> user.updateRefreshToken(refreshToken, accessToken),
                         () -> new Exception("일치하는 회원이 없습니다.")
                 );
     }
