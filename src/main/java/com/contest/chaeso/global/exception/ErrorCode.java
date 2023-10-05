@@ -19,6 +19,10 @@ public enum ErrorCode {
     ALREADY_EXIST_NICKNAME(BAD_REQUEST, "이미 존재하는 닉네임입니다."),
     NOT_FOUND_COMMUNITY_POSTS(BAD_REQUEST, "해당 게시글이 존재하지 않습니다."),
     NOT_FOUND_LANGUAGE(BAD_REQUEST, "해당 언어가 존재하지 않습니다."),
+
+    GOOGLE_LOGIN_FAILURE(BAD_REQUEST, "구글 로그인에 실패하였습니다."),
+    KAKAO_LOGIN_FAILURE(BAD_REQUEST, "카카오 로그인에 실패하였습니다."),
+
     S3_FILE_UPLOAD(BAD_REQUEST, "S3 file upload에 실패하였습니다."),
     NOT_FOUND_RESTAURANT(BAD_REQUEST, "해당 레스토랑이 존재하지 않습니다."),
     NOT_FOUND_RESTAURANT_REVIEW(BAD_REQUEST, "해당 레스토랑의 리뷰가 존재하지 않습니다.");

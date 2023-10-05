@@ -1,18 +1,17 @@
 package com.contest.chaeso.domain.community.community.api.dto.res;
 
-import com.contest.chaeso.domain.community.img.api.dto.res.ResponseCommunityImgListDto;
-import com.contest.chaeso.domain.community.img.domain.CommunityImg;
-import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import com.contest.chaeso.domain.community.img.api.dto.res.ResponseCommunityImgDto;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Getter
+@Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ResponseCommunityListDto {
 
     private Long communityId;
@@ -20,8 +19,8 @@ public class ResponseCommunityListDto {
     private String nickname;
     private Long likeCount;
     private Long reviewCount;
+    private List<ResponseCommunityImgDto> imgList = new ArrayList<>();
 
-    @QueryProjection
     public ResponseCommunityListDto(Long communityId, String profilePicture, String nickname, Long likeCount, Long reviewCount) {
         this.communityId = communityId;
         this.profilePicture = profilePicture;

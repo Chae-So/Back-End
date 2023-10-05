@@ -4,21 +4,20 @@ import com.contest.chaeso.domain.community.img.domain.CommunityImg;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-
-import java.util.ArrayList;
-import java.util.List;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
-public class ResponseCommunityImgListDto {
+public class ResponseCommunityImgDto {
 
     private Long communityId;
     private Long coImgId;
     private String imgUrl;
 
-    public static ResponseCommunityImgListDto communityImgList(CommunityImg communityImg) {
-        return ResponseCommunityImgListDto.builder()
+    public static ResponseCommunityImgDto communityImgList(CommunityImg communityImg) {
+        return ResponseCommunityImgDto.builder()
                 .communityId(communityImg.getCommunity().getId())
                 .coImgId(communityImg.getId())
                 .imgUrl(communityImg.getCoImgLink())
