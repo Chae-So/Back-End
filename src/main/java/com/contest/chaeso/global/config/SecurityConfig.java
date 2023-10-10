@@ -55,6 +55,7 @@ public class SecurityConfig {
                 .antMatchers("/language", "/vegan").permitAll()
                 .antMatchers("/enter/**").permitAll() // 회원가입 접근 가능
                 .antMatchers("/admin/**").permitAll() // admin 접근 가능
+                .antMatchers("/swagger-ui/**", "/swagger-resources/**", "/swagger-resources", "/v3/api-docs").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
