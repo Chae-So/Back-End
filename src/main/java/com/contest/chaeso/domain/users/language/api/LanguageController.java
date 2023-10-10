@@ -18,7 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Api(value = "LanguageController")
-@RequestMapping("/language")
+@RequestMapping("/api/language")
 public class LanguageController {
 
     private final LanguageService languageService;

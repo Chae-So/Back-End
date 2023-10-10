@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @Slf4j
 @Api(value = "JoinController")
-@RequestMapping("/join")
+@RequestMapping("/api/join")
 public class JoinController {
 
     private final UserService userService;

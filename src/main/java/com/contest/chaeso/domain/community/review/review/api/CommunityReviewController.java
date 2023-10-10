@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/community-review")
+@RequestMapping("/api/community-review")
 public class CommunityReviewController {
 
     private final CommunityReviewService communityReviewService;

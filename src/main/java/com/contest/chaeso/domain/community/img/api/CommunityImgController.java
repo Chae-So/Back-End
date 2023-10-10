@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/community/img")
+@RequestMapping("/api/community/img")
 public class CommunityImgController {
 
     private final CommunityImgService communityImgService;

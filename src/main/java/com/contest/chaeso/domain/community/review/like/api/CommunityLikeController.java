@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/community-like")
+@RequestMapping("/api/community-like")
 public class CommunityLikeController {
 
     private final CommunityLikeService communityLikeService;
