@@ -19,7 +19,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @Slf4j
 @Api(value = "CommunityCategoryController")
-@RequestMapping("/community-category")
+@RequestMapping("/api/community-category")
 public class CommunityCategoryController {
 
     private final CommunityCategoryService categoryService;

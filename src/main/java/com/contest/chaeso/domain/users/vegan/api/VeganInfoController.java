@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @Api(value = "VeganController")
-@RequestMapping("/vegan")
+@RequestMapping("/api/vegan")
 public class VeganInfoController {
 
     private final VeganInfoService veganInfoService;
