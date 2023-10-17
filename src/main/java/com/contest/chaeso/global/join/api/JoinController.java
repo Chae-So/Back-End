@@ -47,11 +47,21 @@ public class JoinController {
             @ApiResponse(code = 200, message = "success"),
             @ApiResponse(code = 400, message = "fail")
     })
-    @GetMapping("/duplicate-check")
-    public ResponseEntity CheckForDuplicateNickname(String nickname) {
-        userService.CheckForDuplicateNickname(nickname);
+    @GetMapping("/duplicate-check/nickname/{nickname}")
+    public ResponseEntity checkForDuplicateNickname(@PathVariable String nickname) {
+        userService.checkForDuplicateNickname(nickname);
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "이메일 중복검사", notes = "이메일의 중복여부를 검증합니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "success"),
+            @ApiResponse(code = 400, message = "fail")
+    })
+    @GetMapping("/duplicate-check/email/{email}")
+    public ResponseEntity checkForDuplicateEmail(@PathVariable String email) {
+        userService.checkForDuplicateEmail(email);
+        return ResponseEntity.ok().build();
+    }
 
 }

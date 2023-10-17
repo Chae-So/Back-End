@@ -18,8 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -59,13 +57,14 @@ public class UserService {
         usersRepository.save(user);
     }
 
-    @Transactional
-    public void CheckForDuplicateNickname(String nickname) {
+    @Transactional(readOnly = true)
+    public void checkForDuplicateNickname(String nickname) {
         usersRepository.findUsersByNickname(nickname).ifPresent(user -> {
             throw new CustomException(ErrorCode.ALREADY_EXIST_NICKNAME);
         });
     }
 
+    @Transactional
     public ResponseOAuthUserInfoDto socialUserInfo(String socialType, String code) {
         if (socialType.equals("google")) {
             return googleSocialLogin.getUserInfo(code);
@@ -73,5 +72,12 @@ public class UserService {
             return kakaoSocialLogin.getUserInfo(code);
         }
         return null;
+    }
+
+    @Transactional(readOnly = true)
+    public void checkForDuplicateEmail(String email) {
+        usersRepository.findByEmail(email).ifPresent(user -> {
+            throw new CustomException(ErrorCode.ALREADY_EXIST_EMAIL);
+        });
     }
 }
