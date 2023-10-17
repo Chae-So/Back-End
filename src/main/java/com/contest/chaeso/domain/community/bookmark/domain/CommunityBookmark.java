@@ -27,4 +27,11 @@ public class CommunityBookmark {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Users users;
+
+    public static CommunityBookmark addCommunity(Community community, Users user) {
+        return CommunityBookmark.builder()
+                .community(community)
+                .users(user)
+                .build();
+    }
 }
